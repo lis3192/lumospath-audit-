@@ -1,0 +1,4309 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The LumosPath Audit Questionnaire</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --midnight: #1B1F3B;
+    --spark: #A6E3E9;
+    --glow: #F6EFE9;
+    --gold: #E0C285;
+    --white: #FFFFFF;
+    --ink: #1B1F3B;
+    --muted: #6c6f85;
+    --soft-line: #e6e1d9;
+    --shadow: 0 6px 20px rgba(27, 31, 59, 0.08);
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--glow);
+    color: var(--ink);
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 16px;
+    line-height: 1.55;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: 'Fredoka', sans-serif;
+    font-weight: 600;
+    color: var(--midnight);
+    margin: 0 0 12px 0;
+    line-height: 1.2;
+  }
+
+  h1 { font-size: 2.2rem; }
+  h2 { font-size: 1.6rem; }
+  h3 { font-size: 1.2rem; }
+
+  p { margin: 0 0 12px 0; }
+
+  .app {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 28px 22px 80px 22px;
+  }
+
+  /* Mobile banner */
+  .mobile-banner {
+    display: none;
+    background: var(--midnight);
+    color: var(--white);
+    padding: 14px 18px;
+    border-radius: 10px;
+    margin-bottom: 18px;
+    font-size: 0.92rem;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .mobile-banner button {
+    background: var(--gold);
+    border: none;
+    color: var(--midnight);
+    font-weight: 600;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  @media (max-width: 767px) {
+    .mobile-banner.show { display: flex; }
+  }
+
+  /* Progress bar */
+  .progress-wrap {
+    margin-bottom: 24px;
+  }
+  .progress-label {
+    font-size: 0.85rem;
+    color: var(--muted);
+    margin-bottom: 6px;
+    font-weight: 500;
+  }
+  .progress-track {
+    height: 8px;
+    background: var(--soft-line);
+    border-radius: 99px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: var(--gold);
+    width: 20%;
+    transition: width 0.4s ease;
+    border-radius: 99px;
+  }
+
+  /* Sections */
+  .section {
+    background: var(--white);
+    border-radius: 16px;
+    padding: 32px;
+    box-shadow: var(--shadow);
+    display: none;
+    animation: fadeIn 0.35s ease;
+  }
+  .section.active { display: block; }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Hero on welcome */
+  .hero {
+    text-align: center;
+    margin-bottom: 24px;
+  }
+  .hero-emoji {
+    font-size: 4.2rem;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .tagline {
+    font-style: italic;
+    color: var(--gold);
+    font-size: 1.2rem;
+    margin-top: 2px;
+    display: block;
+  }
+
+  /* Form basics */
+  label {
+    display: block;
+    font-weight: 600;
+    font-size: 0.92rem;
+    margin-bottom: 6px;
+    color: var(--midnight);
+  }
+  .field-help {
+    font-size: 0.85rem;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+  input[type="text"],
+  input[type="email"],
+  input[type="number"],
+  input[type="url"],
+  select,
+  textarea {
+    width: 100%;
+    padding: 11px 13px;
+    border: 1px solid var(--soft-line);
+    border-radius: 8px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.95rem;
+    background: var(--white);
+    color: var(--ink);
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  }
+  input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px rgba(224, 194, 133, 0.25);
+  }
+  textarea {
+    min-height: 90px;
+    resize: vertical;
+  }
+  .field {
+    margin-bottom: 18px;
+  }
+  .field-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  @media (max-width: 600px) {
+    .field-row { grid-template-columns: 1fr; }
+  }
+
+  .hint {
+    font-size: 0.82rem;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+
+  /* Callouts */
+  .callout {
+    background: var(--glow);
+    border-left: 4px solid var(--gold);
+    padding: 16px 18px;
+    border-radius: 8px;
+    margin: 18px 0;
+    font-size: 0.95rem;
+  }
+  .callout strong { color: var(--midnight); }
+  .callout ul { margin: 8px 0 0 18px; padding: 0; }
+  .callout li { margin-bottom: 4px; }
+
+  .live-callout {
+    background: rgba(166, 227, 233, 0.25);
+    border-left: 4px solid var(--spark);
+    padding: 12px 16px;
+    border-radius: 8px;
+    margin: 12px 0;
+    font-size: 0.95rem;
+    font-weight: 500;
+    display: none;
+  }
+  .live-callout.show { display: block; }
+
+  /* Buttons */
+  .btn {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    padding: 11px 22px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.1s ease, box-shadow 0.15s ease, background 0.15s ease;
+  }
+  .btn:hover { transform: translateY(-1px); }
+  .btn-primary {
+    background: var(--midnight);
+    color: var(--white);
+  }
+  .btn-primary:hover { background: #2a2f54; }
+  .btn-secondary {
+    background: var(--white);
+    color: var(--midnight);
+    border: 1px solid var(--soft-line);
+  }
+  .btn-secondary:hover { background: var(--glow); }
+  .btn-skip {
+    background: transparent;
+    color: var(--muted);
+    border: 1px dashed var(--soft-line);
+  }
+  .btn-gold-big {
+    background: var(--gold);
+    color: var(--white);
+    font-size: 1.1rem;
+    padding: 16px 36px;
+    border-radius: 10px;
+    box-shadow: 0 4px 14px rgba(224, 194, 133, 0.4);
+  }
+  .btn-gold-big:hover { background: #d4b370; }
+  .btn-link {
+    background: none;
+    border: none;
+    color: var(--muted);
+    text-decoration: underline;
+    cursor: pointer;
+    font-size: 0.88rem;
+    padding: 4px;
+  }
+  .btn-link:hover { color: var(--midnight); }
+
+  .nav-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 28px;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .nav-row .right-group {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  /* Section 3: workflow cards */
+  .workflow-card {
+    background: var(--glow);
+    border: 1px solid var(--soft-line);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 18px;
+    position: relative;
+  }
+  .workflow-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+  .workflow-card-header h3 {
+    margin: 0;
+    font-size: 1.05rem;
+  }
+  .remove-btn {
+    background: transparent;
+    border: none;
+    color: var(--muted);
+    cursor: pointer;
+    font-size: 0.85rem;
+    padding: 4px 8px;
+  }
+  .remove-btn:hover { color: #c44; }
+
+  /* Chips for tools */
+  .chip-input-wrap {
+    border: 1px solid var(--soft-line);
+    border-radius: 8px;
+    padding: 8px;
+    background: var(--white);
+    min-height: 44px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    align-items: center;
+  }
+  .chip-input-wrap:focus-within {
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px rgba(224, 194, 133, 0.25);
+  }
+  .chip {
+    background: var(--spark);
+    color: var(--midnight);
+    padding: 5px 10px;
+    border-radius: 99px;
+    font-size: 0.85rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 500;
+  }
+  .chip.selected {
+    background: var(--gold);
+  }
+  .chip-x {
+    cursor: pointer;
+    font-weight: 700;
+    opacity: 0.7;
+  }
+  .chip-x:hover { opacity: 1; }
+  .chip-input {
+    border: none;
+    outline: none;
+    flex: 1;
+    min-width: 120px;
+    padding: 4px;
+    font-size: 0.9rem;
+    background: transparent;
+  }
+  .tool-suggestions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 8px;
+  }
+  .tool-pill {
+    background: var(--white);
+    border: 1px solid var(--soft-line);
+    color: var(--midnight);
+    padding: 5px 11px;
+    border-radius: 99px;
+    cursor: pointer;
+    font-size: 0.82rem;
+    transition: all 0.12s ease;
+  }
+  .tool-pill:hover {
+    background: var(--gold);
+    border-color: var(--gold);
+    color: var(--white);
+  }
+  .tool-pill.active {
+    background: var(--gold);
+    border-color: var(--gold);
+    color: var(--white);
+  }
+
+  /* Tasks */
+  .task-row {
+    display: grid;
+    grid-template-columns: 50px 2fr 0.8fr 1fr 32px;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  .task-row input, .task-row select {
+    padding: 8px 10px;
+    font-size: 0.88rem;
+  }
+  .task-num {
+    font-family: 'Fredoka', sans-serif;
+    font-weight: 600;
+    color: var(--midnight);
+    font-size: 0.9rem;
+    background: var(--gold);
+    color: var(--white);
+    border-radius: 6px;
+    text-align: center;
+    padding: 8px 6px;
+  }
+  .task-row .task-remove {
+    background: transparent;
+    border: none;
+    color: var(--muted);
+    cursor: pointer;
+    font-size: 1.1rem;
+    padding: 4px;
+  }
+  .task-row .task-remove:hover { color: #c44; }
+  @media (max-width: 600px) {
+    .task-row {
+      grid-template-columns: 50px 1fr;
+    }
+    .task-row > *:nth-child(2) { grid-column: 2; }
+    .task-row > *:nth-child(3),
+    .task-row > *:nth-child(4) { grid-column: 1 / -1; }
+    .task-row > *:nth-child(5) { grid-column: 1 / -1; text-align: right; }
+  }
+  .task-header {
+    display: grid;
+    grid-template-columns: 50px 2fr 0.8fr 1fr 32px;
+    gap: 8px;
+    font-size: 0.78rem;
+    color: var(--muted);
+    font-weight: 600;
+    margin-bottom: 6px;
+    padding: 0 2px;
+  }
+  @media (max-width: 600px) { .task-header { display: none; } }
+
+  .add-link {
+    background: transparent;
+    border: 1px dashed var(--gold);
+    color: var(--midnight);
+    padding: 8px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.88rem;
+    margin-top: 6px;
+    font-family: 'Inter', sans-serif;
+  }
+  .add-link:hover { background: rgba(224, 194, 133, 0.15); }
+
+  .workflow-stats {
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px solid var(--soft-line);
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    font-size: 0.85rem;
+  }
+  .workflow-stats .stat strong {
+    display: block;
+    font-family: 'Fredoka', sans-serif;
+    font-size: 1.15rem;
+    color: var(--midnight);
+    margin-top: 2px;
+  }
+  .workflow-stats .stat span { color: var(--muted); }
+
+  /* Example block */
+  .example-block {
+    background: var(--white);
+    border: 1px solid var(--soft-line);
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin: 12px 0 18px 0;
+    font-size: 0.92rem;
+  }
+  .example-list {
+    margin: 6px 0 0 0;
+    padding-left: 22px;
+    color: var(--ink);
+  }
+  .example-list li { margin-bottom: 3px; }
+
+  /* Goals */
+  .goal-row {
+    margin-bottom: 14px;
+  }
+  .goal-row.hidden { display: none; }
+
+  /* Report */
+  .hero-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin: 22px 0;
+  }
+  @media (max-width: 600px) { .hero-stats { grid-template-columns: 1fr; } }
+  .hero-stat {
+    background: var(--midnight);
+    color: var(--white);
+    padding: 22px;
+    border-radius: 12px;
+    text-align: center;
+  }
+  .hero-stat .num {
+    font-family: 'Fredoka', sans-serif;
+    font-size: 2.4rem;
+    font-weight: 600;
+    color: var(--gold);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .hero-stat .lbl {
+    font-size: 0.85rem;
+    opacity: 0.85;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .gap-callout {
+    background: var(--gold);
+    color: var(--midnight);
+    padding: 16px 20px;
+    border-radius: 12px;
+    margin: 14px 0 22px 0;
+    font-size: 1rem;
+    font-weight: 500;
+    text-align: center;
+  }
+
+  .leak-callout {
+    background: var(--glow);
+    border: 2px solid var(--gold);
+    border-radius: 12px;
+    padding: 18px 20px;
+    margin: 22px 0;
+  }
+  .leak-callout h3 { color: var(--midnight); margin-bottom: 8px; }
+  .leak-callout p { margin: 0; }
+
+  /* Charts */
+  .chart-block {
+    margin: 28px 0;
+  }
+  .chart-block h3 {
+    font-size: 1.1rem;
+    margin-bottom: 12px;
+  }
+  .bar-chart .bar-row {
+    display: grid;
+    grid-template-columns: 180px 1fr 50px;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 8px;
+    font-size: 0.88rem;
+  }
+  @media (max-width: 600px) {
+    .bar-chart .bar-row { grid-template-columns: 130px 1fr 40px; font-size: 0.8rem; }
+  }
+  .bar-track {
+    background: var(--glow);
+    border-radius: 99px;
+    height: 22px;
+    overflow: hidden;
+  }
+  .bar-fill {
+    height: 100%;
+    background: var(--gold);
+    border-radius: 99px;
+    transition: width 0.4s ease;
+  }
+  .bar-fill.cat-marketing { background: #A6E3E9; }
+  .bar-fill.cat-sales { background: #E0C285; }
+  .bar-fill.cat-delivery { background: #1B1F3B; }
+  .bar-fill.cat-retention { background: #c1a3d8; }
+  .bar-fill.cat-admin { background: #8aa9b8; }
+
+  .bar-label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .stacked-bar {
+    height: 28px;
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    margin-bottom: 10px;
+  }
+  .stacked-seg {
+    height: 100%;
+    transition: width 0.4s ease;
+  }
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    font-size: 0.82rem;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .legend-swatch {
+    width: 12px;
+    height: 12px;
+    border-radius: 3px;
+  }
+
+  .donut-wrap {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .donut-svg { width: 160px; height: 160px; }
+
+  /* Ranking table */
+  .ranking-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0;
+    font-size: 0.92rem;
+  }
+  .ranking-table th, .ranking-table td {
+    padding: 10px 12px;
+    text-align: left;
+    border-bottom: 1px solid var(--soft-line);
+  }
+  .ranking-table th {
+    background: var(--glow);
+    color: var(--midnight);
+    font-weight: 600;
+    font-size: 0.85rem;
+  }
+  .ranking-table tr:nth-child(even) td { background: rgba(246, 239, 233, 0.4); }
+
+  /* Recommendation cards */
+  .rec-card {
+    background: var(--white);
+    border: 1px solid var(--soft-line);
+    border-radius: 12px;
+    padding: 22px;
+    margin-bottom: 18px;
+    box-shadow: var(--shadow);
+    page-break-inside: avoid;
+  }
+  .rec-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 14px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--soft-line);
+  }
+  .rec-rank {
+    background: var(--midnight);
+    color: var(--gold);
+    font-family: 'Fredoka', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 600;
+    padding: 8px 14px;
+    border-radius: 8px;
+    min-width: 56px;
+    text-align: center;
+  }
+  .rec-title h4 {
+    margin: 0 0 2px 0;
+    font-size: 1.1rem;
+    font-family: 'Fredoka', sans-serif;
+    color: var(--midnight);
+  }
+  .rec-meta {
+    font-size: 0.85rem;
+    color: var(--muted);
+  }
+  .rec-section {
+    margin-bottom: 14px;
+  }
+  .rec-label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--gold);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 4px;
+  }
+  .rec-section p {
+    margin: 0;
+    font-size: 0.95rem;
+    color: var(--ink);
+    line-height: 1.5;
+  }
+  .rec-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin: 14px 0;
+    background: var(--glow);
+    padding: 14px;
+    border-radius: 8px;
+  }
+  @media (max-width: 600px) { .rec-grid { grid-template-columns: 1fr; } }
+  .rec-stat-label {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: var(--muted);
+    font-weight: 600;
+    margin-bottom: 2px;
+  }
+  .rec-stat-val {
+    font-size: 0.92rem;
+    color: var(--midnight);
+    font-weight: 500;
+  }
+  .rec-deeper {
+    font-size: 0.85rem;
+    color: var(--muted);
+    font-style: italic;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px dashed var(--soft-line);
+  }
+
+  .goal-eval-card {
+    background: var(--white);
+    border: 1px solid var(--soft-line);
+    border-left: 4px solid var(--gold);
+    border-radius: 10px;
+    padding: 16px 18px;
+    margin-bottom: 14px;
+  }
+  .goal-eval-num {
+    font-family: 'Fredoka', sans-serif;
+    color: var(--gold);
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+  .goal-eval-text {
+    font-family: 'Fredoka', sans-serif;
+    color: var(--midnight);
+    font-size: 1.05rem;
+    margin-bottom: 10px;
+    font-weight: 500;
+  }
+  .goal-eval-insights {
+    margin: 0;
+    padding-left: 18px;
+    color: var(--ink);
+    font-size: 0.93rem;
+  }
+  .goal-eval-insights li { margin-bottom: 5px; }
+
+  .summary-box {
+    background: var(--glow);
+    border-radius: 10px;
+    padding: 18px 20px;
+    margin: 16px 0;
+  }
+  .summary-box h4 {
+    font-size: 0.95rem;
+    margin: 12px 0 4px 0;
+    color: var(--midnight);
+  }
+  .summary-box p {
+    margin: 0;
+    color: var(--ink);
+    font-size: 0.95rem;
+  }
+  .summary-box .empty { color: var(--muted); font-style: italic; }
+  .amplify-box {
+    background: rgba(166, 227, 233, 0.25);
+    border-left: 4px solid var(--spark);
+  }
+
+  .pre-call {
+    background: var(--glow);
+    border-left: 4px solid var(--gold);
+    padding: 18px 20px;
+    border-radius: 10px;
+    margin: 24px 0;
+    font-size: 0.95rem;
+  }
+
+  .download-row {
+    text-align: center;
+    margin: 30px 0 16px 0;
+  }
+  .send-callout {
+    background: var(--glow);
+    border: 1px solid var(--gold);
+    border-radius: 10px;
+    padding: 16px 18px;
+    text-align: center;
+    margin-bottom: 24px;
+    font-size: 0.92rem;
+  }
+  .reset-row {
+    text-align: center;
+    margin-top: 30px;
+    padding-top: 18px;
+    border-top: 1px solid var(--soft-line);
+  }
+
+  /* Tagline color */
+  small.tag-italic {
+    color: var(--gold);
+    font-style: italic;
+    font-size: 1.15rem;
+  }
+
+  /* ===== RESOURCE PACK STYLING ===== */
+
+  /* Top stripe and section eyebrow */
+  .top-stripe { height: 6px; background: var(--spark); margin: -28px -22px 22px -22px; border-radius: 0; }
+  @media (max-width: 600px) { .top-stripe { margin: -28px -22px 18px -22px; } }
+
+  .section-label {
+    color: var(--gold);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    font-weight: 700;
+    margin-bottom: 6px;
+    margin-top: 28px;
+  }
+  .section-title {
+    font-family: 'Fredoka', sans-serif;
+    font-size: 1.45rem;
+    font-weight: 600;
+    color: var(--midnight);
+    margin-bottom: 18px;
+  }
+
+  /* Workflow indicator */
+  .wf-indicator {
+    display: inline-block;
+    background: var(--midnight);
+    color: var(--gold);
+    font-family: 'Fredoka', sans-serif;
+    padding: 6px 14px;
+    border-radius: 99px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+
+  /* Hero (per workflow + sec-5) */
+  .wf-hero {
+    background: var(--midnight);
+    color: var(--white);
+    padding: 30px 30px 26px 30px;
+    border-radius: 14px;
+    margin-bottom: 24px;
+    margin-top: 8px;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .wf-hero-eyebrow {
+    color: var(--spark);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+  .wf-hero h1, .wf-hero h2 {
+    font-family: 'Fredoka', sans-serif;
+    color: var(--white);
+    font-size: 1.7rem;
+    line-height: 1.2;
+    margin: 0 0 14px 0;
+  }
+  .wf-hero p {
+    color: #c8ccdf;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin: 0 0 14px 0;
+  }
+  .wf-hero .tool-pills {
+    display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px;
+  }
+  .wf-hero .pill {
+    background: rgba(166,227,233,0.12);
+    color: var(--spark);
+    border: 1px solid var(--spark);
+    font-size: 0.75rem;
+    padding: 4px 11px;
+    border-radius: 99px;
+    font-weight: 500;
+  }
+
+  /* Stage card (left border accent) */
+  .stage-card {
+    background: var(--white);
+    border-left: 5px solid var(--spark);
+    border-radius: 12px;
+    padding: 22px 26px;
+    box-shadow: var(--shadow);
+    margin-bottom: 20px;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .stage-card p { color: var(--ink); font-size: 0.95rem; line-height: 1.65; margin-bottom: 10px; }
+  .stage-card p:last-child { margin-bottom: 0; }
+  .stage-card strong { color: var(--midnight); font-weight: 600; }
+
+  /* Callout strip (Frequency / Tools / Owner) */
+  .callout-strip {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px;
+    margin-top: 16px;
+    padding-top: 14px;
+    border-top: 1px solid var(--soft-line);
+  }
+  .callout-strip > div { flex: 1 1 150px; }
+  .callout-strip .label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--gold);
+    font-weight: 700;
+    margin-bottom: 3px;
+  }
+  .callout-strip .value {
+    font-size: 0.92rem;
+    color: var(--midnight);
+    font-weight: 600;
+  }
+
+  /* Stage 0: visual workflow timeline */
+  .wf-timeline { display: flex; flex-direction: column; gap: 10px; margin-bottom: 14px; }
+  .wf-tl-step {
+    display: grid;
+    grid-template-columns: 36px 1fr auto;
+    gap: 12px;
+    align-items: center;
+    background: var(--white);
+    border: 1px solid var(--soft-line);
+    border-radius: 10px;
+    padding: 12px 14px;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .wf-tl-num {
+    background: var(--midnight);
+    color: var(--gold);
+    width: 36px; height: 36px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Fredoka', sans-serif;
+    font-weight: 600;
+    font-size: 0.95rem;
+  }
+  .wf-tl-name { font-size: 0.95rem; color: var(--midnight); font-weight: 500; }
+  .wf-tl-meta { font-size: 0.82rem; color: var(--muted); margin-top: 1px; }
+  .wf-tl-right { text-align: right; }
+  .wf-tl-mins {
+    font-family: 'Fredoka', sans-serif;
+    font-size: 0.95rem;
+    color: var(--midnight);
+    font-weight: 600;
+  }
+  .wf-tl-who {
+    display: inline-block;
+    font-size: 0.7rem;
+    padding: 2px 8px;
+    border-radius: 99px;
+    margin-top: 3px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+  }
+  .wf-tl-who.owner { background: #fde8e8; color: #c0392b; }
+  .wf-tl-who.va { background: #e8f7f9; color: #0d7e8a; }
+  .wf-tl-who.both { background: #fff3cd; color: #8c5a1e; }
+  .wf-tl-who.automated { background: #e8f7ee; color: #1e7d46; }
+
+  /* Cost grid (Stage 2) */
+  .cost-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin-bottom: 18px;
+  }
+  @media (max-width: 700px) { .cost-grid { grid-template-columns: 1fr; } }
+  .cost-box {
+    background: var(--glow);
+    border-radius: 12px;
+    padding: 20px 22px;
+    border-top: 4px solid var(--spark);
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .cost-box.gold { border-top-color: var(--gold); }
+  .cost-box.red { border-top-color: #e85d75; }
+  .cost-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .cost-value {
+    font-family: 'Fredoka', sans-serif;
+    font-size: 1.55rem;
+    font-weight: 600;
+    color: var(--midnight);
+    line-height: 1.2;
+    margin-bottom: 6px;
+  }
+  .cost-desc {
+    font-size: 0.82rem;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  /* Compound box */
+  .compound-box {
+    background: #fff3cd;
+    border-left: 4px solid var(--gold);
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin-bottom: 20px;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .compound-box .label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #8c5a1e;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .compound-box p {
+    font-size: 0.92rem;
+    color: var(--midnight);
+    line-height: 1.65;
+    margin: 0 0 8px 0;
+  }
+  .compound-box p:last-child { margin-bottom: 0; }
+  .compound-box strong { color: var(--midnight); }
+
+  /* Solutions table */
+  .solutions-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--white);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    font-size: 0.88rem;
+    margin-bottom: 16px;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .solutions-table th {
+    background: var(--midnight);
+    color: var(--white);
+    text-align: left;
+    padding: 12px 14px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    vertical-align: top;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .solutions-table th:first-child { width: 22%; }
+  .solutions-table td {
+    padding: 11px 14px;
+    border-top: 1px solid var(--soft-line);
+    vertical-align: top;
+    color: var(--ink);
+    line-height: 1.55;
+  }
+  .solutions-table td:first-child {
+    font-weight: 600;
+    color: var(--midnight);
+    background: #fafafa;
+  }
+  .solutions-table tr:nth-child(even) td:not(:first-child) {
+    background: #fafafa;
+  }
+  .rec-badge {
+    background: var(--spark);
+    color: var(--midnight);
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 99px;
+    margin-left: 6px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    vertical-align: middle;
+  }
+  @media (max-width: 700px) {
+    .solutions-table { font-size: 0.78rem; display: block; overflow-x: auto; }
+  }
+
+  /* Recommendation card (dark + gold border + verdict pill) */
+  .rec-card-v2 {
+    background: var(--midnight);
+    border: 2px solid var(--gold);
+    border-radius: 14px;
+    padding: 24px 26px;
+    color: var(--white);
+    margin-bottom: 16px;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .rec-card-v2 .rec-eyebrow {
+    color: var(--gold);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+  .rec-card-v2 h3 {
+    font-family: 'Fredoka', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--white);
+    margin-bottom: 12px;
+  }
+  .rec-card-v2 p {
+    color: #c8ccdf;
+    font-size: 0.92rem;
+    line-height: 1.7;
+    margin-bottom: 10px;
+  }
+  .rec-card-v2 p strong { color: var(--gold); font-weight: 600; }
+  .rec-card-v2 p:last-of-type { margin-bottom: 0; }
+  .verdict-pill {
+    background: var(--gold);
+    color: var(--midnight);
+    border-radius: 99px;
+    padding: 12px 20px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    text-align: center;
+    margin-top: 18px;
+    letter-spacing: 0.02em;
+  }
+
+  /* Why-box (analogies) */
+  .why-box {
+    background: var(--midnight);
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin: 14px 0;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .why-box .why-label {
+    color: var(--spark);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .why-box p {
+    color: #c8ccdf;
+    font-size: 0.88rem;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* Glossary */
+  .glossary-card {
+    background: var(--white);
+    border-radius: 12px;
+    padding: 22px 26px;
+    border-left: 5px solid var(--spark);
+    box-shadow: var(--shadow);
+    margin: 16px 0;
+  }
+  .glossary-card .term {
+    padding: 10px 0;
+    border-bottom: 1px solid var(--soft-line);
+    font-size: 0.9rem;
+    color: var(--ink);
+    line-height: 1.6;
+  }
+  .glossary-card .term:last-child { border-bottom: none; }
+  .glossary-card .term strong {
+    color: var(--midnight);
+    font-weight: 600;
+    margin-right: 4px;
+  }
+
+  /* Math breakdown table */
+  .math-breakdown-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 8px 0 14px 0;
+    font-size: 0.9rem;
+  }
+  .math-breakdown-table th, .math-breakdown-table td {
+    padding: 9px 12px;
+    text-align: left;
+    border-bottom: 1px solid var(--soft-line);
+  }
+  .math-breakdown-table th {
+    background: var(--midnight);
+    color: var(--white);
+    font-weight: 600;
+    font-size: 0.82rem;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .math-breakdown-table tr.total-row td {
+    background: var(--gold);
+    color: var(--midnight);
+    font-weight: 700;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .math-formula {
+    background: var(--glow);
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 0.88rem;
+    color: var(--ink);
+    margin: 10px 0;
+    font-family: 'Inter', sans-serif;
+    line-height: 1.6;
+  }
+  .math-formula strong { color: var(--midnight); }
+
+  /* Leakage map */
+  .leakage-card {
+    background: var(--white);
+    border: 1px solid var(--soft-line);
+    border-radius: 10px;
+    padding: 16px 18px;
+    margin-bottom: 12px;
+  }
+  .leakage-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--soft-line);
+  }
+  .leakage-card-name {
+    font-family: 'Fredoka', sans-serif;
+    color: var(--midnight);
+    font-size: 1rem;
+    font-weight: 600;
+  }
+  .leakage-card-meta {
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+  .task-leak-row {
+    display: grid;
+    grid-template-columns: 1fr 70px 100px;
+    gap: 10px;
+    align-items: center;
+    padding: 7px 0;
+    font-size: 0.88rem;
+    border-bottom: 1px dashed var(--soft-line);
+  }
+  .task-leak-row:last-child { border-bottom: none; }
+  .task-leak-row .roi-badge {
+    display: inline-block;
+    font-size: 0.68rem;
+    padding: 3px 8px;
+    border-radius: 99px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-align: center;
+  }
+  .roi-badge.keep { background: #e8f7ee; color: #1e7d46; }
+  .roi-badge.delegate { background: #fde8e8; color: #c0392b; }
+  .roi-badge.mixed { background: #fff3cd; color: #8c5a1e; }
+  .roi-badge.va, .roi-badge.va-tag { background: #e8f7f9; color: #0d7e8a; }
+  .roi-badge.auto, .roi-badge.auto-tag { background: #e8f0fe; color: #2a5bd4; }
+  .leakage-summary {
+    background: var(--glow);
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    color: var(--ink);
+    margin-top: 12px;
+    line-height: 1.6;
+    border-left: 3px solid var(--gold);
+  }
+  .leakage-summary strong { color: var(--midnight); }
+
+  /* New leakage table with verdict + tip */
+  .leakage-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 4px 0 8px 0;
+    font-size: 0.88rem;
+  }
+  .leakage-table th {
+    text-align: left;
+    padding: 8px 10px;
+    background: var(--midnight);
+    color: var(--white);
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .leakage-table th.num { text-align: right; width: 60px; }
+  .leakage-table .leak-task-row td {
+    padding: 9px 10px;
+    border-top: 1px solid var(--soft-line);
+    color: var(--ink);
+    vertical-align: middle;
+  }
+  .leakage-table .leak-task-row td.num { text-align: right; color: var(--midnight); font-weight: 600; }
+  .leakage-table .leak-tip-row td {
+    padding: 6px 10px 12px 32px;
+    color: var(--muted);
+    font-size: 0.85rem;
+    line-height: 1.55;
+    background: #fbfaf7;
+    font-style: italic;
+  }
+  .leak-tip-icon { margin-right: 4px; }
+  .verdict-badge {
+    display: inline-block;
+    font-size: 0.68rem;
+    padding: 4px 10px;
+    border-radius: 99px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-align: center;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .verdict-badge.keep { background: #e8f7ee; color: #1e7d46; }
+  .verdict-badge.amplify { background: #ede8ff; color: #6340c0; }
+  .verdict-badge.delegate { background: #e8f0fe; color: #2a5bd4; }
+  .verdict-badge.optimize { background: #d4f4f5; color: #0d7e8a; }
+  .verdict-badge.review { background: #fff3cd; color: #8c5a1e; }
+  .verdict-badge.delete { background: #fde8e8; color: #c0392b; }
+
+  /* Verdict key list for Stage 03 intro */
+  .verdict-key-list {
+    list-style: none;
+    padding: 0;
+    margin: 6px 0 12px 0;
+  }
+  .verdict-key-list li {
+    padding: 6px 0;
+    color: var(--ink);
+    font-size: 0.92rem;
+    line-height: 1.5;
+  }
+  .verdict-key-list li .verdict-badge {
+    margin-right: 10px;
+    min-width: 90px;
+  }
+  @media (max-width: 700px) {
+    .leakage-table { font-size: 0.8rem; }
+    .leakage-table th, .leakage-table .leak-task-row td { padding: 6px 7px; }
+  }
+
+  /* Tool stack grid */
+  .tool-stack {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  @media (max-width: 600px) { .tool-stack { grid-template-columns: 1fr; } }
+  .tool-cat {
+    background: var(--white);
+    border-radius: 10px;
+    padding: 14px 16px;
+    box-shadow: var(--shadow);
+    border-left: 4px solid var(--gold);
+  }
+  .tool-cat .cat-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    font-weight: 700;
+    margin-bottom: 5px;
+  }
+  .tool-cat .tools {
+    font-size: 0.92rem;
+    color: var(--midnight);
+    font-weight: 500;
+  }
+
+  /* ===== FULL PRINT DOCUMENT ===== */
+  #full-print-doc { display: none; }
+
+  @media print {
+    @page { size: A4; margin: 14mm; }
+    html, body { background: #FFFFFF !important; }
+    /* Hide the live wizard entirely */
+    .app { display: none !important; }
+    .mobile-banner { display: none !important; }
+    /* Show only the print doc */
+    #full-print-doc {
+      display: block !important;
+      max-width: 100%;
+      padding: 0;
+      color: #1B1F3B;
+      font-family: 'Inter', sans-serif;
+    }
+    /* Force colour rendering on backgrounds */
+    .wf-hero, .stage-card, .cost-box, .compound-box, .solutions-table,
+    .rec-card-v2, .why-box, .wf-tl-step, .glossary-card, .tool-cat,
+    .leak-callout, .gap-callout, .pre-call, .summary-box, .callout,
+    .pdf-cover, .pdf-section, .ranking-table, .pdf-bar-row .bar-fill,
+    .verdict-badge, .verdict-pill, .wf-indicator, .rec-eyebrow,
+    .pill {
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+
+    /* CRITICAL: explicit text colours so dark-bg text actually renders in PDF */
+    .rec-card-v2 { color: #FFFFFF !important; }
+    .rec-card-v2 h3,
+    .rec-card-v2 h2 { color: #FFFFFF !important; }
+    .rec-card-v2 p { color: #FFFFFF !important; }
+    .rec-card-v2 p strong { color: #E0C285 !important; }
+    .rec-card-v2 .rec-eyebrow { color: #E0C285 !important; }
+
+    .wf-hero { color: #FFFFFF !important; }
+    .wf-hero h1, .wf-hero h2 { color: #FFFFFF !important; }
+    .wf-hero p { color: #FFFFFF !important; }
+    .wf-hero .wf-hero-eyebrow { color: #A6E3E9 !important; }
+
+    .why-box { color: #FFFFFF !important; }
+    .why-box p { color: #FFFFFF !important; }
+    .why-box .why-label { color: #A6E3E9 !important; }
+
+    .wf-indicator { color: #E0C285 !important; background: #1B1F3B !important; }
+    .verdict-pill { color: #1B1F3B !important; background: #E0C285 !important; }
+    .pill { color: #A6E3E9 !important; }
+
+    h1, h2, h3 { page-break-after: avoid; }
+
+    /* Page break strategy: only force breaks at major section boundaries.
+       Allow large blocks (cost-grid, solutions-table) to break naturally
+       so we don't end up with massive white space. */
+    .pdf-page-break { page-break-before: always; }
+    .pdf-no-break { page-break-inside: avoid; }
+    /* Keep these atomic (small enough to fit on one page) */
+    .rec-card-v2,
+    .compound-box,
+    .leak-callout,
+    .why-box,
+    .wf-tl-step,
+    .verdict-badge,
+    .pdf-cover { page-break-inside: avoid; }
+    /* Allow these to break across pages naturally to fill space */
+    .cost-grid,
+    .solutions-table,
+    .leakage-table,
+    .stage-card,
+    .pdf-section { page-break-inside: auto; }
+    /* Don't orphan section headers */
+    h2 + p, h3 + p { page-break-before: avoid; }
+  }
+
+  /* Print doc internal styles (apply when visible in print) */
+  #full-print-doc .pdf-cover {
+    text-align: center;
+    padding: 30px 0;
+    border-bottom: 3px solid var(--gold);
+    margin-bottom: 24px;
+  }
+  #full-print-doc .pdf-cover h1 {
+    font-family: 'Fredoka', sans-serif;
+    font-size: 2rem;
+    color: var(--midnight);
+    margin: 0 0 6px 0;
+  }
+  #full-print-doc .pdf-cover .pdf-tagline {
+    color: var(--gold);
+    font-style: italic;
+    font-size: 1.05rem;
+  }
+  #full-print-doc .pdf-cover .pdf-meta {
+    color: var(--muted);
+    font-size: 0.9rem;
+    margin-top: 10px;
+  }
+  #full-print-doc .pdf-section {
+    margin-bottom: 22px;
+  }
+  #full-print-doc h2 {
+    font-family: 'Fredoka', sans-serif;
+    color: var(--midnight);
+    font-size: 1.4rem;
+    margin: 22px 0 10px 0;
+    padding-bottom: 6px;
+    border-bottom: 2px solid var(--gold);
+  }
+  #full-print-doc h3 {
+    font-family: 'Fredoka', sans-serif;
+    color: var(--midnight);
+    font-size: 1.1rem;
+    margin: 16px 0 8px 0;
+  }
+  #full-print-doc h4 {
+    font-family: 'Fredoka', sans-serif;
+    color: var(--midnight);
+    font-size: 0.98rem;
+    margin: 10px 0 4px 0;
+  }
+  #full-print-doc p { font-size: 0.92rem; line-height: 1.6; margin: 0 0 8px 0; color: var(--ink); }
+  #full-print-doc .pdf-row { margin-bottom: 5px; font-size: 0.92rem; }
+  #full-print-doc .pdf-row .pdf-label { font-weight: 600; color: var(--midnight); margin-right: 6px; }
+  #full-print-doc table { width: 100%; border-collapse: collapse; margin-bottom: 12px; font-size: 0.85rem; }
+  #full-print-doc th, #full-print-doc td { border: 1px solid var(--soft-line); padding: 7px 10px; text-align: left; vertical-align: top; }
+  #full-print-doc th { background: var(--glow); color: var(--midnight); font-weight: 600; }
+  #full-print-doc .pdf-bar-row {
+    display: grid;
+    grid-template-columns: 180px 1fr 60px;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 6px;
+    font-size: 0.85rem;
+  }
+  #full-print-doc .pdf-bar-track {
+    background: var(--glow);
+    border-radius: 99px;
+    height: 18px;
+    overflow: hidden;
+  }
+  #full-print-doc .pdf-bar-fill {
+    height: 100%;
+    background: var(--gold);
+    border-radius: 99px;
+  }
+
+  .print-header { text-align: center; margin-bottom: 18px; }
+
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <!-- Mobile banner -->
+  <div class="mobile-banner" id="mobile-banner">
+    <span>This works best on a laptop. Save the link and come back when you're at a desk.</span>
+    <button onclick="document.getElementById('mobile-banner').classList.remove('show')">Got it</button>
+  </div>
+
+  <!-- Progress bar -->
+  <div class="progress-wrap no-print">
+    <div class="progress-label" id="progress-label">Step 1 of 7</div>
+    <div class="progress-track">
+      <div class="progress-fill" id="progress-fill"></div>
+    </div>
+  </div>
+
+  <!-- ====================== SECTION 1 ====================== -->
+  <section class="section active" id="sec-1">
+    <div class="hero">
+      <div class="hero-emoji">🔍</div>
+      <h1>The LumosPath Audit Questionnaire</h1>
+      <small class="tag-italic">Lighting your path forward</small>
+    </div>
+
+    <p>This questionnaire helps me see where your time and money are actually going so we can use our audit call for solving.</p>
+
+    <h3 style="margin-top:24px;">Your details</h3>
+
+    <div class="field">
+      <label for="full-name">Your full name <span style="color:var(--gold)">*</span></label>
+      <input type="text" id="full-name" placeholder="" />
+    </div>
+
+    <div class="field">
+      <label for="business-name">Business name <span style="color:var(--gold)">*</span></label>
+      <input type="text" id="business-name" placeholder="" />
+    </div>
+
+    <div class="field-row">
+      <div class="field">
+        <label for="website">Website <span style="color:var(--gold)">*</span></label>
+        <input type="url" id="website" placeholder="https://yourbusiness.com" />
+      </div>
+      <div class="field">
+        <label for="social">Instagram handle <span style="color:var(--gold)">*</span></label>
+        <input type="text" id="social" placeholder="@yourhandle" />
+      </div>
+    </div>
+
+    <div class="callout">
+      <strong>⏱️ Roughly 15 to 20 minutes.</strong> Tips to make this easier:
+      <ul>
+        <li>Voice dump it. Use Wispr Flow, your phone's dictation, or any voice-to-text tool.</li>
+        <li>Skip what doesn't apply. Most sections have a skip option.</li>
+      </ul>
+    </div>
+
+    <h3 style="margin-top:24px;">Your rates</h3>
+    <p style="color:var(--muted); margin-top:-6px; font-size:0.92rem;">These costed against your workflows in the report.</p>
+
+    <div class="field-row">
+      <div class="field">
+        <label for="rate-owner">Your hourly rate ($)</label>
+        <input type="number" id="rate-owner" min="0" step="1" placeholder="e.g. 200" />
+      </div>
+      <div class="field">
+        <label for="rate-va">VA / contractor average hourly rate ($)</label>
+        <div class="field-help">Leave blank if none.</div>
+        <input type="number" id="rate-va" min="0" step="1" placeholder="e.g. 40" />
+      </div>
+    </div>
+
+    <div class="nav-row">
+      <span></span>
+      <div class="right-group">
+        <button class="btn btn-primary" onclick="goToSection(2)">Next →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================== SECTION 2 ====================== -->
+  <section class="section" id="sec-2">
+    <h1>What are you actually trying to do?</h1>
+    <p>The goal isn't to add more AI. The goal is to build a flywheel.</p>
+    <p>Each bottleneck you fix frees up capacity to layer the next fix on top. The work compounds. The business gets leaner with more clients. You get your time back to do the things you actually want to do.</p>
+    <p>So tell me what matters most right now.</p>
+
+    <div class="goal-row" id="goal-row-1">
+      <label for="goal-1">Goal 1 (most important)</label>
+      <input type="text" id="goal-1" placeholder="e.g. Hit $20k months without working weekends" />
+    </div>
+
+    <div class="goal-row hidden" id="goal-row-2">
+      <label for="goal-2">Goal 2</label>
+      <input type="text" id="goal-2" placeholder="e.g. Add 50 qualified leads per month" />
+    </div>
+
+    <div class="goal-row hidden" id="goal-row-3">
+      <label for="goal-3">Goal 3</label>
+      <input type="text" id="goal-3" placeholder="e.g. Reduce client churn under 10%" />
+    </div>
+
+    <button class="add-link" id="add-goal-btn" onclick="addGoal()">+ Add another goal</button>
+
+    <div class="nav-row">
+      <button class="btn btn-secondary" onclick="goToSection(1)">← Back</button>
+      <div class="right-group">
+        <button class="btn btn-skip" onclick="goToSection(3)">Skip</button>
+        <button class="btn btn-primary" onclick="goToSection(3)">Next →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================== SECTION 3 ====================== -->
+  <section class="section" id="sec-3">
+    <h1>Walk me through your business</h1>
+    <p>Add up to 3 workflows that take real time in your week. The ones that feel heaviest, most repeated, or that you keep meaning to fix.</p>
+
+    <div class="example-block">
+      <p style="margin-bottom:8px;"><strong>Example workflow:</strong> Weekly Group Coaching Delivery</p>
+      <ol class="example-list">
+        <li>Prep slides. Owner. 45 minutes.</li>
+        <li>Run live call. Owner. 90 minutes.</li>
+        <li>Upload recording to Kajabi. VA. 20 minutes.</li>
+        <li>Send recap email. VA. 10 minutes.</li>
+        <li>Reply to follow-up questions. Owner. 60 minutes.</li>
+        <li>Auto-populate weekly recording into each student's client portal. Automated. 30 minutes.</li>
+      </ol>
+    </div>
+
+    <div id="workflows-container"></div>
+
+    <button class="add-link" id="add-workflow-btn" onclick="addWorkflow()">+ Add a workflow</button>
+    <div class="hint" id="workflow-cap-hint" style="display:none;">Hard cap of 3 workflows. Remove one to add another.</div>
+
+    <div class="nav-row">
+      <button class="btn btn-secondary" onclick="goToSection(2)">← Back</button>
+      <div class="right-group">
+        <button class="btn btn-skip" onclick="goToSection(4)">Skip</button>
+        <button class="btn btn-primary" onclick="goToSection(4)">Next →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================== SECTION 4 ====================== -->
+  <section class="section" id="sec-4">
+    <h1>A few quick questions before the report</h1>
+
+    <div class="field">
+      <label for="q1">Where do clients keep getting stuck?</label>
+      <div class="field-help">Is there a topic, module, lesson, or part of your service where clients ask the same questions over and over? Where you find yourself re-explaining the same thing to different people? Name it.</div>
+      <textarea id="q1" placeholder="e.g. Module 3 of my course, the offer creation week"></textarea>
+      <button class="btn-link" onclick="document.getElementById('q1').value=''; saveDebounced();">Skip this one</button>
+    </div>
+
+    <div class="field">
+      <label for="q2">What's your most popular pain in the ass to deliver?</label>
+      <div class="field-help">Of everything you offer, which one gets the strongest interest and demand from clients but is the most complex, time-consuming, or repetitive for you to deliver? Name it.</div>
+      <textarea id="q2" placeholder="e.g. 1:1 audit calls. Everyone wants them but they eat my whole week."></textarea>
+      <button class="btn-link" onclick="document.getElementById('q2').value=''; saveDebounced();">Skip this one</button>
+    </div>
+
+    <div class="field">
+      <label for="q3">If I waved a wand and fixed ONE thing tomorrow, what would it be?</label>
+      <div class="field-help">First instinct only. Don't overthink.</div>
+      <textarea id="q3" placeholder="e.g. Onboarding. It takes me 4 hours per client and I keep dropping the ball."></textarea>
+      <button class="btn-link" onclick="document.getElementById('q3').value=''; saveDebounced();">Skip this one</button>
+    </div>
+
+    <div class="field">
+      <label for="q4">What should you be doing MORE of?</label>
+      <div class="field-help">High-impact activities or tasks that move the business forward. The stuff you wish you had more time for. What would have the biggest impact if you doubled down on it?</div>
+      <textarea id="q4" placeholder="e.g. Sales calls. Every one I take converts but I only fit in 2 a week."></textarea>
+      <button class="btn-link" onclick="document.getElementById('q4').value=''; saveDebounced();">Skip this one</button>
+    </div>
+
+    <div class="field">
+      <label for="q5">What do you want to explore?</label>
+      <div class="field-help">An offer, channel, project, or idea you've been sitting on but haven't had space for. Name it, even if it's half-formed.</div>
+      <textarea id="q5" placeholder="e.g. Building a small group cohort. Or starting a podcast."></textarea>
+      <button class="btn-link" onclick="document.getElementById('q5').value=''; saveDebounced();">Skip this one</button>
+    </div>
+
+    <div class="nav-row">
+      <button class="btn btn-secondary" onclick="goToSection(3)">← Back</button>
+      <div class="right-group">
+        <button class="btn btn-skip" onclick="goToReport()">Skip</button>
+        <button class="btn btn-primary" onclick="goToReport()">See my report →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================== SECTION 5: OVERALL DIAGNOSIS ====================== -->
+  <section class="section" id="sec-5">
+    <div class="top-stripe"></div>
+
+    <div class="wf-hero">
+      <div class="wf-hero-eyebrow">YOUR AUDIT REPORT</div>
+      <h1 id="sec5-headline">Here's what your time is actually costing you.</h1>
+      <p>What follows is your full diagnostic in one read. We start with the leakage map, every task you mapped with a verdict and a specific recommendation. Then the cost of NOT fixing those leaks, in real dollars across a working year. Then a quick read on owner vs VA vs automated work, and the workflow ranking. The fix plan, workflow by workflow, comes after. Read this once. Bring it to the call.</p>
+      <div class="tool-pills" id="sec5-tools"></div>
+    </div>
+
+    <div class="section-label">STAGE 01</div>
+    <h2 class="section-title">The leakage map</h2>
+    <p style="color:var(--muted); margin-top:-10px; font-size:0.92rem;">For every task in every workflow, here's a verdict and a specific tip:</p>
+    <ul class="verdict-key-list">
+      <li><span class="verdict-badge keep">KEEP</span> high-ROI for the business, owner stays, current time about right.</li>
+      <li><span class="verdict-badge amplify">AMPLIFY</span> high-ROI work where MORE time pays back. Reinvest hours saved elsewhere into this.</li>
+      <li><span class="verdict-badge delegate">DELEGATE</span> currently on owner, should move to a VA so it stops eating your week.</li>
+      <li><span class="verdict-badge optimize">OPTIMIZE</span> already on a VA or automated, can be made faster, cheaper, or fully automated.</li>
+      <li><span class="verdict-badge review">REVIEW</span> ambiguous from the data, worth discussing in our call. Hidden cost or hidden upside lives here.</li>
+      <li><span class="verdict-badge delete">DELETE</span> might not need to exist at all.</li>
+    </ul>
+    <p style="color:var(--muted); font-size:0.92rem;">Each row also gets a specific tip: which tool to use (your stack first, then automation tools like n8n, Make, or Zapier where they fit), how much time you can shave, and where AI plugs in. The summary at the bottom of each workflow tells you what's worth fixing first.</p>
+    <div id="leakage-map-content">
+      <p style="color:var(--muted); font-style:italic;">Add workflows with tasks to see the leakage map.</p>
+    </div>
+
+    <div class="section-label">STAGE 02</div>
+    <h2 class="section-title">The cost of NOT fixing the leak</h2>
+    <p style="color:var(--muted); margin-top:-10px; font-size:0.92rem;" id="leak-cost-narrative">This is the cost of the work flagged above as DELEGATE, OPTIMIZE, or DELETE. KEEP and AMPLIFY work is excluded because it should stay where it is, that's where the time you reclaim should be reinvested. REVIEW tasks aren't counted yet because we need to look at them together in the audit call. Hidden cost (or hidden upside) lives there. The numbers below are calculated using your owner rate of <strong id="rate-display-owner">$0/hr</strong> and VA rate of <strong id="rate-display-va">$0/hr</strong>, costed against whoever is currently doing each task.</p>
+
+    <div class="cost-grid">
+      <div class="cost-box">
+        <div class="cost-label">Leak-able hours</div>
+        <div class="cost-value" id="leak-time">0 hrs/week</div>
+        <div class="cost-desc" id="leak-time-desc">Add workflows with tasks to see the calculation.</div>
+      </div>
+      <div class="cost-box gold">
+        <div class="cost-label">Weekly cost</div>
+        <div class="cost-value" id="leak-money">$0</div>
+        <div class="cost-desc" id="leak-money-desc">Your time at your rate, plus any VA hours that could be removed entirely.</div>
+      </div>
+      <div class="cost-box red">
+        <div class="cost-label">Annual cost</div>
+        <div class="cost-value" id="leak-annual">$0</div>
+        <div class="cost-desc" id="leak-annual-desc">Across 44 working weeks (52 minus 4 weeks holiday minus 4 weeks of slow weeks, sick days, public holidays).</div>
+      </div>
+    </div>
+
+    <div class="compound-box">
+      <div class="label">The compound effect over 12 months</div>
+      <p id="compound-text">Add workflows and goals to see how this plays out over a year.</p>
+    </div>
+
+    <div class="section-label">STAGE 03</div>
+    <h2 class="section-title">Owner vs VA vs Automated</h2>
+    <p style="color:var(--muted); margin-top:-10px; font-size:0.92rem;">How the weekly work splits today. The strategic read is below the donut.</p>
+    <div class="chart-block">
+      <div class="donut-wrap">
+        <svg class="donut-svg" id="chart-donut" viewBox="0 0 36 36"></svg>
+        <div class="legend" id="chart-donut-legend" style="flex-direction:column; gap:8px;"></div>
+      </div>
+      <div class="stage-card" style="margin-top:14px;" id="roi-insight-card">
+        <p id="roi-insight-text" style="color:var(--muted); font-style:italic;">Add tasks to your workflows to see the strategic ROI breakdown.</p>
+      </div>
+    </div>
+
+    <div class="section-label">STAGE 04</div>
+    <h2 class="section-title">Workflow ranking</h2>
+    <p style="color:var(--muted); margin-top:-10px; font-size:0.92rem;">Highest cost first. The top one is where to start.</p>
+    <table class="ranking-table">
+      <thead>
+        <tr>
+          <th>Workflow</th>
+          <th>Category</th>
+          <th>Hrs / week</th>
+          <th>$ / week</th>
+        </tr>
+      </thead>
+      <tbody id="ranking-body"></tbody>
+    </table>
+
+    <div class="nav-row no-print">
+      <button class="btn btn-secondary" onclick="goToSection(4)">← Back</button>
+      <div class="right-group">
+        <button class="btn btn-primary" onclick="goToWorkflowDeepDive(0)">See your fix plan →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================== SECTION 6: WORKFLOW DEEP DIVE ====================== -->
+  <section class="section" id="sec-6">
+    <div class="top-stripe"></div>
+
+    <div class="wf-indicator" id="wf-indicator">Workflow 1 of 1</div>
+
+    <div class="wf-hero">
+      <div class="wf-hero-eyebrow" id="wf-hero-eyebrow">PAIN POINT</div>
+      <h1 id="wf-hero-headline">Walk me through the workflow.</h1>
+      <p id="wf-hero-paragraph">Tap "See your fix plan" once you've added workflows.</p>
+      <div class="tool-pills" id="wf-hero-tools"></div>
+    </div>
+
+    <div class="section-label">STAGE 00</div>
+    <h2 class="section-title">Your current workflow</h2>
+    <div class="wf-timeline" id="wf-timeline"></div>
+    <div class="stage-card" style="border-left-color: var(--gold); background: var(--glow);">
+      <div class="callout-strip" style="border-top: none; padding-top: 0; margin-top: 0;">
+        <div>
+          <div class="label">Per occurrence</div>
+          <div class="value" id="wf-tot-per">0h 0m</div>
+        </div>
+        <div>
+          <div class="label">Weekly time</div>
+          <div class="value" id="wf-tot-week">0h 0m</div>
+        </div>
+        <div>
+          <div class="label">Weekly $ cost</div>
+          <div class="value" id="wf-tot-cost">$0</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-label">STAGE 01</div>
+    <h2 class="section-title">The bottleneck</h2>
+    <div class="stage-card" id="wf-bottleneck-card">
+      <p id="wf-bottleneck-text">Add tasks to see the bottleneck.</p>
+      <div class="callout-strip">
+        <div>
+          <div class="label">Frequency</div>
+          <div class="value" id="wf-cs-freq">—</div>
+        </div>
+        <div>
+          <div class="label">Weekly cost</div>
+          <div class="value" id="wf-cs-cost">$0</div>
+        </div>
+        <div>
+          <div class="label">Owner load</div>
+          <div class="value" id="wf-cs-owner">—</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="stage-card" id="wf-roi-card" style="border-left-color: var(--midnight); margin-top:10px;">
+      <div style="font-size:0.7rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--gold);font-weight:700;margin-bottom:6px;">ROI READ ON THIS WORKFLOW</div>
+      <p id="wf-roi-text">Add tasks to see which parts of this workflow are healthy owner load vs leak.</p>
+    </div>
+
+    <div class="section-label">STAGE 02</div>
+    <h2 class="section-title">The cost of inaction</h2>
+    <div class="cost-grid">
+      <div class="cost-box">
+        <div class="cost-label">Time</div>
+        <div class="cost-value" id="wf-cost-time">0 hrs/week</div>
+        <div class="cost-desc" id="wf-cost-time-desc"></div>
+      </div>
+      <div class="cost-box gold">
+        <div class="cost-label">Financial</div>
+        <div class="cost-value" id="wf-cost-money">$0</div>
+        <div class="cost-desc" id="wf-cost-money-desc"></div>
+      </div>
+      <div class="cost-box red">
+        <div class="cost-label">Emotional / Opportunity</div>
+        <div class="cost-value" id="wf-cost-opp">—</div>
+        <div class="cost-desc" id="wf-cost-opp-desc"></div>
+      </div>
+    </div>
+
+    <div class="compound-box">
+      <div class="label">12 months from now if nothing changes</div>
+      <p id="wf-compound-text">—</p>
+    </div>
+
+    <div class="section-label">STAGE 03</div>
+    <h2 class="section-title">Three solutions</h2>
+    <div id="wf-solutions-wrap"></div>
+
+    <div class="section-label">STAGE 04</div>
+    <h2 class="section-title">The recommendation</h2>
+    <div class="rec-card-v2" id="wf-rec-card">
+      <div class="rec-eyebrow">RECOMMENDED PATH</div>
+      <h3 id="wf-rec-title">—</h3>
+      <p id="wf-rec-why1"></p>
+      <p id="wf-rec-why2"></p>
+      <p id="wf-rec-whynow"></p>
+      <div class="verdict-pill" id="wf-rec-verdict">—</div>
+    </div>
+
+    <div class="why-box" id="wf-why-box">
+      <div class="why-label">Why box · Plain English analogy</div>
+      <p id="wf-why-text">—</p>
+    </div>
+
+    <div class="callout" style="margin-top:18px;">
+      <strong>📞 We can go through the step-by-step build in your audit call.</strong> The full workflow map, the tools, the build requirements.
+    </div>
+
+    <div class="nav-row no-print">
+      <button class="btn btn-secondary" id="wf-back-btn" onclick="prevWorkflowOrSec5()">← Back</button>
+      <div class="right-group">
+        <button class="btn btn-primary" id="wf-next-btn" onclick="nextWorkflowOrSec7()">Next workflow →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================== SECTION 7: SUMMARY + CTAs ====================== -->
+  <section class="section" id="sec-7">
+    <div class="top-stripe"></div>
+
+    <div class="wf-hero">
+      <div class="wf-hero-eyebrow">YOUR CALL PREP</div>
+      <h1>Bring this to your audit call.</h1>
+      <p>The conversation goes deeper than what we could auto-generate. Below: how the data connects to your goals, what to amplify, and the questions to bring.</p>
+    </div>
+
+    <div class="section-label">GOALS</div>
+    <h2 class="section-title">How this affects your goals</h2>
+    <p style="color:var(--muted); font-size:0.92rem; margin-top:-10px;">Each goal scored against your data.</p>
+    <div id="goal-eval-list"></div>
+
+    <div class="section-label">AMPLIFY</div>
+    <h2 class="section-title">Things to amplify</h2>
+    <p style="color:var(--muted); font-size:0.92rem; margin-top:-10px;">The opposite of leaks. What to make MORE room for.</p>
+    <div class="summary-box amplify-box">
+      <h4>What you should be doing more of:</h4>
+      <p id="sum-q4" class="empty">No answer</p>
+      <h4>What you want to explore:</h4>
+      <p id="sum-q5" class="empty">No answer</p>
+    </div>
+
+    <div class="section-label">CALL PREP</div>
+    <h2 class="section-title">Things to bring to your audit call</h2>
+    <div class="summary-box">
+      <h4>Where clients keep getting stuck:</h4>
+      <p id="sum-q1" class="empty">No answer</p>
+      <h4>Most popular pain in the ass to deliver:</h4>
+      <p id="sum-q2" class="empty">No answer</p>
+      <h4>One thing to fix tomorrow:</h4>
+      <p id="sum-q3" class="empty">No answer</p>
+    </div>
+
+    <div class="pre-call">
+      <strong>What happens next:</strong> bring your downloaded PDF to your audit call. We won't spend the call re-explaining what you've already told me. We'll go deeper on the leak and agree on ONE thing to ship in 30 days.
+    </div>
+
+    <div class="section-label">GLOSSARY</div>
+    <h2 class="section-title">Plain English glossary</h2>
+    <div class="glossary-card">
+      <div class="term"><strong>Bottleneck:</strong> The single step in a workflow where everything backs up. Fix this and the rest moves.</div>
+      <div class="term"><strong>Owner load:</strong> How much of the work needs YOU specifically. High Owner load = hard to scale.</div>
+      <div class="term"><strong>Flywheel:</strong> A system where each fix makes the next one cheaper. The opposite of a hamster wheel.</div>
+      <div class="term"><strong>SOP:</strong> Standard Operating Procedure. A document or video that lets someone else do a task without you re-explaining.</div>
+      <div class="term"><strong>VA:</strong> Virtual Assistant. A part-time contractor who handles tasks below your hourly rate.</div>
+      <div class="term"><strong>AI assistant (e.g. ChatGPT, Claude):</strong> A writing tool that drafts in your voice once trained on examples. Like a junior copywriter who works in seconds.</div>
+      <div class="term"><strong>Automation:</strong> A workflow that runs without you clicking buttons. Trigger fires, steps run, output appears.</div>
+      <div class="term"><strong>Productisation:</strong> Turning custom 1:1 work into a repeatable package. Same core delivery, light tweaks per client.</div>
+    </div>
+
+    <div class="download-row no-print">
+      <button class="btn btn-gold-big" onclick="downloadPDF()">Download My PDF Report</button>
+    </div>
+
+    <div class="send-callout no-print">
+      <p style="margin-bottom:10px;">Your report is yours to keep. Email it to <strong>lisa@lumospath.co</strong> at least 24 hours before our call so I have time to prep, and bring it on the day too.</p>
+      <p style="margin-bottom:10px;">Suggested subject line: <strong>LumosPath Audit Questionnaire</strong></p>
+      <p style="margin-bottom:0;">Attach your downloaded PDF to the email. Any email provider works (Gmail, Outlook, Apple Mail, anything else).</p>
+    </div>
+
+    <div class="nav-row no-print">
+      <button class="btn btn-secondary" onclick="prevFromSec7()">← Back</button>
+      <div class="right-group">
+        <button class="btn btn-secondary" onclick="goToSection(1)">Back to start ↺</button>
+      </div>
+    </div>
+
+    <div class="reset-row no-print">
+      <button class="btn-link" onclick="resetAll()">Reset all answers</button>
+    </div>
+  </section>
+
+
+
+</div>
+
+<!-- ====================== FULL PRINT DOCUMENT (built on demand) ====================== -->
+<div id="full-print-doc"></div>
+
+<script>
+/* =====================================================
+   STATE + STORAGE
+===================================================== */
+const STORAGE_KEY = 'lumospath_audit_v1';
+
+const TOOL_LIBRARY = [
+  'Notion','Kajabi','Google Drive','Google Meet','Fireflies','Gmail','Slack','Zoom',
+  'ChatGPT','Claude','Gemini','NotebookLM','Canva','Stripe','JotForm','Airtable',
+  'Asana','Calendly','Loom'
+];
+
+const CATEGORIES = [
+  { value: 'marketing', label: 'Marketing / Lead Gen', cls: 'cat-marketing', color: '#A6E3E9' },
+  { value: 'sales',     label: 'Sales',                cls: 'cat-sales',     color: '#E0C285' },
+  { value: 'delivery',  label: 'Client Delivery',      cls: 'cat-delivery',  color: '#1B1F3B' },
+  { value: 'retention', label: 'Client Retention',     cls: 'cat-retention', color: '#c1a3d8' },
+  { value: 'admin',     label: 'Admin & Operations',   cls: 'cat-admin',     color: '#8aa9b8' },
+];
+
+const FREQ_MULTIPLIER = { daily: 7, weekly: 1, fortnightly: 0.5, monthly: 0.25 };
+
+// Working weeks per year for solopreneurs.
+// 52 minus 4 weeks holiday minus 4 weeks of effective downtime
+// (sick days, public holidays, slow weeks, family events).
+const WORKING_WEEKS = 44;
+
+let state = {
+  currentSection: 1,
+  fullName: '', businessName: '', website: '', social: '',
+    currentWorkflowIndex: 0,
+  rateOwner: '', rateVa: '',
+  goals: ['','',''], goalsVisible: 1,
+  workflows: [],
+  q1: '', q2: '', q3: '', q4: '', q5: ''
+};
+
+function newWorkflow() {
+  return {
+    id: 'w' + Math.random().toString(36).slice(2, 9),
+    name: '', category: '', frequency: 'weekly', tools: [],
+    tasks: []
+  };
+}
+function newTask() {
+  return {
+    id: 't' + Math.random().toString(36).slice(2, 9),
+    name: '', minutes: '', who: 'Owner'
+  };
+}
+
+/* =====================================================
+   PERSISTENCE
+===================================================== */
+let saveTimer = null;
+function saveDebounced() {
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(() => {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    } catch(e) {}
+  }, 300);
+}
+function loadState() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) {
+      const saved = JSON.parse(raw);
+      state = Object.assign(state, saved);
+      if (!Array.isArray(state.goals)) state.goals = ['','',''];
+      while (state.goals.length < 3) state.goals.push('');
+      if (!Array.isArray(state.workflows)) state.workflows = [];
+    }
+  } catch(e) {}
+}
+
+/* =====================================================
+   NAVIGATION
+===================================================== */
+function goToSection(n) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.getElementById('sec-' + n).classList.add('active');
+  state.currentSection = n;
+  saveDebounced();
+  updateProgress();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+const TOTAL_SECTIONS = 7;
+function updateProgress() {
+  const n = state.currentSection;
+  document.getElementById('progress-label').textContent = 'Step ' + n + ' of ' + TOTAL_SECTIONS;
+  document.getElementById('progress-fill').style.width = ((n / TOTAL_SECTIONS) * 100) + '%';
+}
+function goToReport() {
+  renderReport();
+  goToSection(5);
+}
+
+/* =====================================================
+   SECTION 1: BASELINE
+===================================================== */
+function bindSection1() {
+  const map = [
+    ['full-name','fullName'], ['business-name','businessName'],
+    ['website','website'], ['social','social'],
+    ['rate-owner','rateOwner'], ['rate-va','rateVa']
+  ];
+  map.forEach(([id, key]) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.value = state[key] || '';
+    el.addEventListener('input', () => {
+      state[key] = el.value;
+      saveDebounced();
+    });
+  });
+}
+
+/* =====================================================
+   SECTION 2: GOALS
+===================================================== */
+function bindSection2() {
+  for (let i = 1; i <= 3; i++) {
+    const el = document.getElementById('goal-' + i);
+    el.value = state.goals[i-1] || '';
+    el.addEventListener('input', () => {
+      state.goals[i-1] = el.value;
+      saveDebounced();
+    });
+  }
+  // restore visible goals
+  for (let i = 2; i <= state.goalsVisible; i++) {
+    document.getElementById('goal-row-' + i).classList.remove('hidden');
+  }
+  updateAddGoalBtn();
+}
+function addGoal() {
+  if (state.goalsVisible < 3) {
+    state.goalsVisible++;
+    document.getElementById('goal-row-' + state.goalsVisible).classList.remove('hidden');
+    saveDebounced();
+    updateAddGoalBtn();
+  }
+}
+function updateAddGoalBtn() {
+  const btn = document.getElementById('add-goal-btn');
+  btn.style.display = state.goalsVisible >= 3 ? 'none' : 'inline-block';
+}
+
+/* =====================================================
+   SECTION 3: WORKFLOWS
+===================================================== */
+function renderWorkflows() {
+  const container = document.getElementById('workflows-container');
+  container.innerHTML = '';
+  state.workflows.forEach((w, idx) => container.appendChild(buildWorkflowCard(w, idx)));
+  document.getElementById('add-workflow-btn').style.display = state.workflows.length >= 3 ? 'none' : 'inline-block';
+  document.getElementById('workflow-cap-hint').style.display = state.workflows.length >= 3 ? 'block' : 'none';
+}
+
+function addWorkflow() {
+  if (state.workflows.length >= 3) return;
+  state.workflows.push(newWorkflow());
+  saveDebounced();
+  renderWorkflows();
+}
+
+function removeWorkflow(id) {
+  state.workflows = state.workflows.filter(w => w.id !== id);
+  saveDebounced();
+  renderWorkflows();
+}
+
+function buildWorkflowCard(w, idx) {
+  const card = document.createElement('div');
+  card.className = 'workflow-card';
+  card.innerHTML = `
+    <div class="workflow-card-header">
+      <h3>Workflow ${idx + 1}</h3>
+      <button class="remove-btn" data-action="remove">Remove</button>
+    </div>
+
+    <div class="field">
+      <label>Workflow name</label>
+      <input type="text" data-field="name" placeholder="e.g. Weekly group coaching delivery" />
+    </div>
+
+    <div class="field-row">
+      <div class="field">
+        <label>Category</label>
+        <select data-field="category">
+          <option value="">Choose a category</option>
+          ${CATEGORIES.map(c => `<option value="${c.value}">${c.label}</option>`).join('')}
+        </select>
+      </div>
+      <div class="field">
+        <label>Frequency</label>
+        <select data-field="frequency">
+          <option value="daily">Daily</option>
+          <option value="weekly">Weekly</option>
+          <option value="fortnightly">Fortnightly</option>
+          <option value="monthly">Monthly</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Tools used</label>
+      <div class="chip-input-wrap" data-zone="chips">
+        <input type="text" class="chip-input" placeholder="Type a tool and press Enter, or pick from below" />
+      </div>
+      <div class="tool-suggestions" data-zone="suggestions"></div>
+    </div>
+
+    <div class="field">
+      <label>Tasks</label>
+      <div class="task-header">
+        <span>#</span>
+        <span>Task name</span>
+        <span>Minutes</span>
+        <span>Who does it</span>
+        <span></span>
+      </div>
+      <div data-zone="tasks"></div>
+      <button class="add-link" data-action="add-task">+ Add task</button>
+    </div>
+
+    <div class="workflow-stats">
+      <div class="stat"><span>Per occurrence</span><strong data-stat="per">0h 0m</strong></div>
+      <div class="stat"><span>Per week</span><strong data-stat="week">0h 0m</strong></div>
+      <div class="stat"><span>$ per week</span><strong data-stat="cost">$0</strong></div>
+    </div>
+  `;
+
+  // bind name
+  const nameEl = card.querySelector('[data-field="name"]');
+  nameEl.value = w.name;
+  nameEl.addEventListener('input', () => { w.name = nameEl.value; saveDebounced(); });
+
+  // category
+  const catEl = card.querySelector('[data-field="category"]');
+  catEl.value = w.category;
+  catEl.addEventListener('change', () => { w.category = catEl.value; saveDebounced(); });
+
+  // frequency
+  const freqEl = card.querySelector('[data-field="frequency"]');
+  freqEl.value = w.frequency;
+  freqEl.addEventListener('change', () => {
+    w.frequency = freqEl.value;
+    saveDebounced();
+    updateWorkflowStats(w, card);
+  });
+
+  // tools
+  const chipZone = card.querySelector('[data-zone="chips"]');
+  const chipInput = chipZone.querySelector('.chip-input');
+  const suggestZone = card.querySelector('[data-zone="suggestions"]');
+
+  function renderChips() {
+    chipZone.querySelectorAll('.chip').forEach(c => c.remove());
+    w.tools.forEach(tool => {
+      const chip = document.createElement('span');
+      chip.className = 'chip';
+      chip.innerHTML = `${tool} <span class="chip-x" title="Remove">×</span>`;
+      chip.querySelector('.chip-x').addEventListener('click', () => {
+        w.tools = w.tools.filter(t => t !== tool);
+        saveDebounced();
+        renderChips();
+        renderSuggestions();
+      });
+      chipZone.insertBefore(chip, chipInput);
+    });
+  }
+  function renderSuggestions() {
+    suggestZone.innerHTML = '';
+    TOOL_LIBRARY.forEach(t => {
+      const pill = document.createElement('span');
+      pill.className = 'tool-pill' + (w.tools.includes(t) ? ' active' : '');
+      pill.textContent = t;
+      pill.addEventListener('click', () => {
+        if (w.tools.includes(t)) {
+          w.tools = w.tools.filter(x => x !== t);
+        } else {
+          w.tools.push(t);
+        }
+        saveDebounced();
+        renderChips();
+        renderSuggestions();
+      });
+      suggestZone.appendChild(pill);
+    });
+    // custom add
+    const addPill = document.createElement('span');
+    addPill.className = 'tool-pill';
+    addPill.style.borderStyle = 'dashed';
+    addPill.textContent = '+ Add custom tool';
+    addPill.addEventListener('click', () => chipInput.focus());
+    suggestZone.appendChild(addPill);
+  }
+  chipInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      const val = chipInput.value.trim();
+      if (val && !w.tools.includes(val)) {
+        w.tools.push(val);
+        saveDebounced();
+        renderChips();
+        renderSuggestions();
+      }
+      chipInput.value = '';
+    } else if (e.key === 'Tab') {
+      // do nothing, let tab move on
+    }
+  });
+  renderChips();
+  renderSuggestions();
+
+  // tasks
+  const taskZone = card.querySelector('[data-zone="tasks"]');
+  function renderTasks() {
+    taskZone.innerHTML = '';
+    w.tasks.forEach((task, tIdx) => {
+      const row = document.createElement('div');
+      row.className = 'task-row';
+      row.innerHTML = `
+        <span class="task-num">${tIdx + 1}</span>
+        <input type="text" placeholder="e.g. Prep slides" data-tf="name" />
+        <input type="number" placeholder="e.g. 45" min="0" step="1" data-tf="minutes" />
+        <select data-tf="who">
+          <option value="Owner">Owner</option>
+          <option value="VA">VA</option>
+          <option value="Both">Both</option>
+          <option value="Automated">Automated</option>
+        </select>
+        <button class="task-remove" title="Remove task">×</button>
+      `;
+      row.querySelector('[data-tf="name"]').value = task.name;
+      row.querySelector('[data-tf="minutes"]').value = task.minutes;
+      row.querySelector('[data-tf="who"]').value = task.who;
+
+      row.querySelectorAll('input, select').forEach(inp => {
+        inp.addEventListener('input', () => {
+          const f = inp.getAttribute('data-tf');
+          task[f] = inp.value;
+          saveDebounced();
+          updateWorkflowStats(w, card);
+        });
+        inp.addEventListener('change', () => {
+          const f = inp.getAttribute('data-tf');
+          task[f] = inp.value;
+          saveDebounced();
+          updateWorkflowStats(w, card);
+        });
+      });
+
+      row.querySelector('.task-remove').addEventListener('click', () => {
+        w.tasks = w.tasks.filter(t => t.id !== task.id);
+        saveDebounced();
+        renderTasks();
+        updateWorkflowStats(w, card);
+      });
+
+      taskZone.appendChild(row);
+    });
+  }
+  card.querySelector('[data-action="add-task"]').addEventListener('click', () => {
+    w.tasks.push(newTask());
+    saveDebounced();
+    renderTasks();
+    updateWorkflowStats(w, card);
+  });
+  renderTasks();
+
+  // remove
+  card.querySelector('[data-action="remove"]').addEventListener('click', () => removeWorkflow(w.id));
+
+  updateWorkflowStats(w, card);
+  return card;
+}
+
+function workflowMinutes(w) {
+  return w.tasks.reduce((sum, t) => sum + (parseFloat(t.minutes) || 0), 0);
+}
+
+function workflowWeeklyMinutes(w) {
+  const mult = FREQ_MULTIPLIER[w.frequency] || 1;
+  return workflowMinutes(w) * mult;
+}
+
+function getRates() {
+  const ownerRate = parseFloat(state.rateOwner) || 0;
+  // If VA rate is blank or zero, fall back to owner rate
+  const vaRaw = parseFloat(state.rateVa);
+  const vaRate = (isNaN(vaRaw) || vaRaw <= 0) ? ownerRate : vaRaw;
+  const avgRate = (ownerRate + vaRate) / 2;
+  return { ownerRate, vaRate, avgRate };
+}
+
+function workflowWeeklyCost(w) {
+  const mult = FREQ_MULTIPLIER[w.frequency] || 1;
+  const { ownerRate, vaRate, avgRate } = getRates();
+  let cost = 0;
+  w.tasks.forEach(t => {
+    const m = parseFloat(t.minutes) || 0;
+    const taskHours = m / 60;
+    let rate = 0;
+    if (t.who === 'Owner') rate = ownerRate;
+    else if (t.who === 'VA') rate = vaRate;
+    else if (t.who === 'Both') rate = avgRate;
+    else if (t.who === 'Automated') rate = 0;
+    cost += taskHours * rate;
+  });
+  return cost * mult;
+}
+
+function fmtHM(totalMin) {
+  const h = Math.floor(totalMin / 60);
+  const m = Math.round(totalMin % 60);
+  return h + 'h ' + m + 'm';
+}
+function fmtMoney(n) {
+  return '$' + Math.round(n).toLocaleString('en-AU');
+}
+
+function updateWorkflowStats(w, card) {
+  const per = workflowMinutes(w);
+  const week = workflowWeeklyMinutes(w);
+  const cost = workflowWeeklyCost(w);
+  card.querySelector('[data-stat="per"]').textContent = fmtHM(per);
+  card.querySelector('[data-stat="week"]').textContent = fmtHM(week);
+  card.querySelector('[data-stat="cost"]').textContent = fmtMoney(cost);
+}
+
+/* =====================================================
+   SECTION 4: DIAGNOSTIC
+===================================================== */
+function bindSection4() {
+  ['q1','q2','q3','q4','q5'].forEach(k => {
+    const el = document.getElementById(k);
+    if (!el) return;
+    el.value = state[k] || '';
+    el.addEventListener('input', () => { state[k] = el.value; saveDebounced(); });
+  });
+}
+
+/* =====================================================
+   SECTION 5: REPORT
+===================================================== */
+/* =====================================================
+   LEAK COST CALCULATION
+   The leak is ONLY the time + cost that could be reclaimed
+   (DELEGATE / DELETE / SHORTEN tasks via savedMins).
+   KEEP work (live calls, sales, founder content) is excluded.
+===================================================== */
+function calculateLeakMetrics() {
+  const ownerRate = parseFloat(state.rateOwner) || 0;
+  const vaRaw = parseFloat(state.rateVa);
+  const vaRate = (isNaN(vaRaw) || vaRaw <= 0) ? ownerRate : vaRaw;
+
+  let totalLeakMins = 0;
+  let totalLeakCost = 0;
+  state.workflows.forEach(w => {
+    const mult = FREQ_MULTIPLIER[w.frequency] || 1;
+    (w.tasks || []).forEach(t => {
+      const tip = generateTaskTip(t, w.tools);
+      const savedMin = (tip.savedMins || 0) * mult;
+      if (savedMin <= 0) return;
+      let rate = 0;
+      if (t.who === 'Owner') rate = ownerRate;
+      else if (t.who === 'VA') rate = vaRate;
+      else if (t.who === 'Both') rate = (ownerRate + vaRate) / 2;
+      else rate = 0; // Automated
+      totalLeakMins += savedMin;
+      totalLeakCost += (savedMin / 60) * rate;
+    });
+  });
+  return {
+    leakMins: totalLeakMins,
+    leakHrs: totalLeakMins / 60,
+    weeklyCost: totalLeakCost,
+    annualCost: totalLeakCost * WORKING_WEEKS,
+    annualHrs: (totalLeakMins / 60) * WORKING_WEEKS
+  };
+}
+
+function renderReport() {
+  // Tool pills (aggregated from all workflows)
+  const allTools = new Set();
+  state.workflows.forEach(w => (w.tools || []).forEach(t => allTools.add(t)));
+  const sec5ToolsEl = document.getElementById('sec5-tools');
+  if (sec5ToolsEl) {
+    sec5ToolsEl.innerHTML = '';
+    Array.from(allTools).slice(0, 12).forEach(t => {
+      const span = document.createElement('span');
+      span.className = 'pill';
+      span.textContent = t;
+      sec5ToolsEl.appendChild(span);
+    });
+  }
+
+  // Stage 01: Leakage map (lead with this)
+  renderLeakageMap();
+
+  // Stage 02: Cost of NOT fixing the leak (only leak-able hours)
+  const ownerRateForDisplay = parseFloat(state.rateOwner) || 0;
+  const vaRateForDisplay = parseFloat(state.rateVa) || 0;
+  setText('rate-display-owner', `$${ownerRateForDisplay}/hr`);
+  setText('rate-display-va', vaRateForDisplay > 0 ? `$${vaRateForDisplay}/hr` : `$${ownerRateForDisplay}/hr (no VA rate provided, using owner rate)`);
+  const leak = calculateLeakMetrics();
+  if (leak.leakHrs > 0) {
+    setText('leak-time', `${leak.leakHrs.toFixed(1)} hrs/week`);
+    setText('leak-time-desc', `Hours flagged as DELEGATE or DELETE in the leakage map above. Excludes KEEP work (live delivery, sales, founder content).`);
+    setText('leak-money', `${fmtMoney(leak.weeklyCost)}/week`);
+    setText('leak-money-desc', `Owner hours costed at your rate. VA hours costed at the VA rate. Only the leak-able portion is counted.`);
+    setText('leak-annual', `${fmtMoney(leak.annualCost)}/year`);
+    setText('leak-annual-desc', `Across 44 working weeks. That is what staying with the current setup costs you over the next 12 months.`);
+
+    // Compound text
+    const compoundText = `Twelve months from now, if nothing changes: ${leak.leakHrs.toFixed(1)} leak-able hours every week, ${fmtMoney(leak.weeklyCost)}/week, ${fmtMoney(leak.annualCost)} on the year. Pure margin you could redirect into the work that grows the business. The compound is not just the dollars. It is the offers, the audience, and the time you would have got back.`;
+    setText('compound-text', compoundText);
+  } else {
+    setText('leak-time', '0 hrs/week');
+    setText('leak-time-desc', 'Add workflows with tasks to see the calculation.');
+    setText('leak-money', '$0');
+    setText('leak-money-desc', 'No leak-able work flagged yet.');
+    setText('leak-annual', '$0');
+    setText('leak-annual-desc', 'Across 44 working weeks.');
+    setText('compound-text', 'Add workflows and goals to see how this plays out over a year.');
+  }
+
+  // Stage 03: Donut + ROI insight
+  renderDonut();
+  renderROIInsight();
+
+  // Stage 04: Ranking
+  renderRanking();
+
+  // Section 7: Goal eval, summary
+  renderGoalEval();
+  // Diagnostic summary (Section 7)
+  ['q1','q2','q3','q4','q5'].forEach(k => {
+    const el = document.getElementById('sum-' + k);
+    if (!el) return;
+    if (state[k] && state[k].trim()) {
+      el.textContent = state[k];
+      el.classList.remove('empty');
+    } else {
+      el.textContent = 'No answer';
+      el.classList.add('empty');
+    }
+  });
+}
+
+function ownerPct(w) {
+  const totalMin = workflowMinutes(w);
+  if (totalMin === 0) return 0;
+  let ownerMin = 0;
+  w.tasks.forEach(t => {
+    const tm = parseFloat(t.minutes) || 0;
+    if (t.who === 'Owner') ownerMin += tm;
+    else if (t.who === 'Both') ownerMin += tm * 0.5;
+  });
+  return (ownerMin / totalMin) * 100;
+}
+
+function renderLeak() {
+  const leakText = document.getElementById('leak-text');
+  if (state.workflows.length === 0 || state.workflows.every(w => workflowWeeklyMinutes(w) === 0)) {
+    leakText.textContent = "Add at least one workflow with tasks to see your biggest leak.";
+    return;
+  }
+  const scored = state.workflows
+    .filter(w => workflowWeeklyMinutes(w) > 0)
+    .map(w => ({
+      w,
+      hrs: workflowWeeklyMinutes(w) / 60,
+      cost: workflowWeeklyCost(w),
+      ownerPct: ownerPct(w)
+    }));
+  if (scored.length === 0) {
+    leakText.textContent = "Add tasks with time to see your biggest leak.";
+    return;
+  }
+  scored.sort((a,b) => (b.ownerPct * b.hrs) - (a.ownerPct * a.hrs));
+  const top = scored[0];
+  const name = top.w.name || 'Unnamed workflow';
+  const annualCost = top.cost * WORKING_WEEKS;
+  // Pull the actual Owner-marked tasks the user filled in
+  const ownerTasks = (top.w.tasks || []).filter(t => t.who === 'Owner' && (parseFloat(t.minutes) || 0) > 0);
+  const taskList = ownerTasks.slice(0, 4).map(t => `"${t.name || 'Unnamed task'}"`).join(', ');
+  let body = `<strong>"${name}"</strong> is your biggest leak.`;
+  if (ownerTasks.length > 0) {
+    body += ` In this workflow you marked ${taskList}${ownerTasks.length > 4 ? ' and others' : ''} as Owner-driven. That alone accounts for the majority of the ${top.hrs.toFixed(1)} hrs/week.`;
+  } else {
+    body += ` ${Math.round(top.ownerPct)}% owner-driven, ${top.hrs.toFixed(1)} hrs/week.`;
+  }
+  body += ` This workflow costs you <strong>${fmtMoney(top.cost)}/week</strong> (${fmtMoney(annualCost)}/year). Fix this one first.`;
+  leakText.innerHTML = body;
+}
+
+/* =====================================================
+   STAGE 00: How we got these numbers
+   Shows per-workflow contribution with explicit math
+===================================================== */
+function renderMathBreakdown() {
+  const target = document.getElementById('math-breakdown-content');
+  if (!target) return;
+
+  const ownerRate = parseFloat(state.rateOwner) || 0;
+  const vaRate = parseFloat(state.rateVa) || 0;
+  const effectiveVa = vaRate > 0 ? vaRate : ownerRate;
+
+  const wfs = state.workflows.filter(w => workflowWeeklyMinutes(w) > 0);
+  if (wfs.length === 0) {
+    target.innerHTML = '<p style="color:var(--muted); font-style:italic;">Add workflows with tasks to see the breakdown.</p>';
+    return;
+  }
+
+  let totalMin = 0, totalCost = 0;
+  const rows = wfs.map(w => {
+    const wkMin = workflowWeeklyMinutes(w);
+    const wkCost = workflowWeeklyCost(w);
+    totalMin += wkMin;
+    totalCost += wkCost;
+    return {
+      name: w.name || 'Unnamed',
+      freq: w.frequency || 'weekly',
+      hrs: wkMin / 60,
+      cost: wkCost,
+      taskCount: (w.tasks || []).length
+    };
+  });
+
+  const totalHrs = totalMin / 60;
+
+  let html = '';
+  html += `<p style="margin-bottom:10px; color:var(--ink);">You mapped <strong>${wfs.length} workflow${wfs.length>1?'s':''}</strong> with a total of <strong>${rows.reduce((s,r)=>s+r.taskCount,0)} tasks</strong>. Here's how each contributes to your weekly leak.</p>`;
+
+  html += '<table class="math-breakdown-table"><thead><tr><th>Workflow</th><th>Frequency</th><th style="text-align:right;">Hrs / week</th><th style="text-align:right;">$ / week</th></tr></thead><tbody>';
+  rows.forEach(r => {
+    html += `<tr><td><strong>${escapeHtml(r.name)}</strong></td><td>${escapeHtml(r.freq)}</td><td style="text-align:right;">${r.hrs.toFixed(1)}</td><td style="text-align:right;">${fmtMoney(r.cost)}</td></tr>`;
+  });
+  html += `<tr class="total-row"><td>TOTAL</td><td>—</td><td style="text-align:right;">${totalHrs.toFixed(1)}</td><td style="text-align:right;">${fmtMoney(totalCost)}</td></tr>`;
+  html += '</tbody></table>';
+
+  // Time formula
+  const timeParts = rows.map(r => `${r.hrs.toFixed(1)} hrs (${r.name})`).join(' + ');
+  html += `<div class="math-formula"><strong>Time math:</strong> ${timeParts} = <strong>${totalHrs.toFixed(1)} hrs/week</strong>. Multiply by ${WORKING_WEEKS} working weeks (52 minus 4 weeks holiday minus 4 weeks of slow weeks, sick days, and public holidays): <strong>${Math.round(totalHrs * WORKING_WEEKS)} hours per year.</strong></div>`;
+
+  // Money formula
+  let moneyExplain = `<div class="math-formula"><strong>Money math:</strong> Owner tasks costed at $${ownerRate}/hr (your rate). VA tasks costed at $${effectiveVa}/hr`;
+  if (vaRate <= 0) moneyExplain += ` (you left this blank, so we use your owner rate as a placeholder)`;
+  moneyExplain += `. Automated tasks costed at $0. Per-workflow weekly cost summed to <strong>${fmtMoney(totalCost)}/week</strong>. Annualised over ${WORKING_WEEKS} working weeks: <strong>${fmtMoney(totalCost * WORKING_WEEKS)}/year.</strong></div>`;
+  html += moneyExplain;
+
+  target.innerHTML = html;
+}
+
+/* =====================================================
+   STAGE 03: Leakage map
+   Per-workflow breakdown of Owner-marked tasks,
+   classified KEEP / DELEGATE / MIXED by ROI heuristic.
+===================================================== */
+function renderLeakageMap() {
+  const target = document.getElementById('leakage-map-content');
+  if (!target) return;
+
+  const wfs = state.workflows.filter(w => workflowWeeklyMinutes(w) > 0);
+  if (wfs.length === 0) {
+    target.innerHTML = '<p style="color:var(--muted); font-style:italic;">Add workflows with tasks to see the leakage map.</p>';
+    return;
+  }
+
+  const cards = wfs.map(w => {
+    const tasks = (w.tasks || []).filter(t => (parseFloat(t.minutes) || 0) > 0);
+    let card = '<div class="leakage-card">';
+    card += '<div class="leakage-card-header">';
+    card += `<div class="leakage-card-name">${escapeHtml(w.name || 'Unnamed')}</div>`;
+    card += `<div class="leakage-card-meta">${(workflowWeeklyMinutes(w)/60).toFixed(1)} hrs/week · ${fmtMoney(workflowWeeklyCost(w))}/week</div>`;
+    card += '</div>';
+
+    if (tasks.length === 0) {
+      card += '<p style="color:var(--muted); font-style:italic; margin:0;">No tasks added.</p></div>';
+      return card;
+    }
+
+    card += '<table class="leakage-table">';
+    card += '<thead><tr><th>Task</th><th class="num">Mins</th><th>Who</th><th>Verdict</th></tr></thead><tbody>';
+    tasks.forEach(t => {
+      const tip = generateTaskTip(t, w.tools);
+      const verdictCls = tip.verdict;
+      const verdictLabel = tip.verdict.toUpperCase();
+      card += `<tr class="leak-task-row"><td>${escapeHtml(t.name || 'Unnamed task')}</td><td class="num">${escapeHtml(t.minutes || 0)}</td><td>${escapeHtml(t.who || 'Owner')}</td><td><span class="verdict-badge ${verdictCls}">${verdictLabel}</span></td></tr>`;
+      if (tip.tip) {
+        card += `<tr class="leak-tip-row"><td colspan="4"><span class="leak-tip-icon">💡</span> ${tip.tip}</td></tr>`;
+      }
+    });
+    card += '</tbody></table>';
+
+    card += `<div class="leakage-summary">${generateWorkflowSummary(w)}</div>`;
+    card += '</div>';
+    return card;
+  });
+
+  target.innerHTML = cards.join('\n');
+}
+
+/* =====================================================
+   STAGE: ROI insight under donut
+===================================================== */
+function renderROIInsight() {
+  const target = document.getElementById('roi-insight-text');
+  if (!target) return;
+
+  let ownerKeepMin = 0, ownerDelegateMin = 0, ownerMixedMin = 0;
+  let totalOwnerMin = 0;
+
+  state.workflows.forEach(w => {
+    const mult = FREQ_MULTIPLIER[w.frequency] || 1;
+    (w.tasks || []).forEach(t => {
+      const mins = (parseFloat(t.minutes) || 0) * mult;
+      let ownerShare = 0;
+      if (t.who === 'Owner') ownerShare = mins;
+      else if (t.who === 'Both') ownerShare = mins / 2;
+      if (ownerShare === 0) return;
+      totalOwnerMin += ownerShare;
+      const cat = classifyTaskROI(t.name);
+      if (cat === 'keep') ownerKeepMin += ownerShare;
+      else if (cat === 'delegate') ownerDelegateMin += ownerShare;
+      else ownerMixedMin += ownerShare;
+    });
+  });
+
+  if (totalOwnerMin === 0) {
+    target.innerHTML = "Add Owner-marked tasks to your workflows to see the strategic ROI breakdown.";
+    return;
+  }
+
+  const keepPct = (ownerKeepMin / totalOwnerMin) * 100;
+  const delegatePct = (ownerDelegateMin / totalOwnerMin) * 100;
+  const mixedPct = (ownerMixedMin / totalOwnerMin) * 100;
+  const keepHrs = ownerKeepMin / 60;
+  const delegateHrs = ownerDelegateMin / 60;
+
+  let msg = `<strong>Reading the donut strategically:</strong> Not all owner work is bad. The question is which parts.<br><br>`;
+  msg += `Of your owner-driven hours, roughly <strong>${keepPct.toFixed(0)}%</strong> (${keepHrs.toFixed(1)} hrs/week) is high-ROI work you should keep doing yourself: live coaching, sales, strategic content, the work where your judgement is the product. `;
+  msg += `Around <strong>${delegatePct.toFixed(0)}%</strong> (${delegateHrs.toFixed(1)} hrs/week) is low-ROI work that should be delegated or automated: admin, scheduling, posting, recaps. `;
+  if (mixedPct > 5) msg += `The remaining <strong>${mixedPct.toFixed(0)}%</strong> is mixed and worth a closer look in the audit call. `;
+  msg += `<br><br><em>The leak isn't your owner load itself. It's the ${delegatePct.toFixed(0)}% that's draining your strategic hours.</em>`;
+  target.innerHTML = msg;
+  target.style.fontStyle = 'normal';
+  target.style.color = 'var(--ink)';
+}
+
+function renderWorkflowBarChart(totalMin) {
+  const wrap = document.getElementById('chart-workflow');
+  wrap.innerHTML = '';
+  if (totalMin === 0 || state.workflows.length === 0) {
+    wrap.innerHTML = '<p style="color:var(--muted); font-size:0.9rem;">No workflow data yet.</p>';
+    return;
+  }
+  const rows = state.workflows.map(w => ({
+    name: w.name || 'Unnamed',
+    minutes: workflowWeeklyMinutes(w)
+  })).filter(r => r.minutes > 0).sort((a,b) => b.minutes - a.minutes);
+
+  rows.forEach(r => {
+    const pct = (r.minutes / totalMin) * 100;
+    const row = document.createElement('div');
+    row.className = 'bar-row';
+    row.innerHTML = `
+      <span class="bar-label" title="${r.name}">${r.name}</span>
+      <div class="bar-track"><div class="bar-fill" style="width:${pct}%"></div></div>
+      <span style="text-align:right; font-weight:600;">${pct.toFixed(0)}%</span>
+    `;
+    wrap.appendChild(row);
+  });
+}
+
+function renderCategoryBarChart(totalMin) {
+  const bar = document.getElementById('chart-category-bar');
+  const legend = document.getElementById('chart-category-legend');
+  bar.innerHTML = '';
+  legend.innerHTML = '';
+  if (totalMin === 0) {
+    bar.innerHTML = '<div style="height:28px; background:var(--glow); border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:0.85rem; color:var(--muted);">No data yet</div>';
+    return;
+  }
+  const totals = {};
+  state.workflows.forEach(w => {
+    const m = workflowWeeklyMinutes(w);
+    if (m === 0 || !w.category) return;
+    totals[w.category] = (totals[w.category] || 0) + m;
+  });
+  CATEGORIES.forEach(c => {
+    const m = totals[c.value] || 0;
+    if (m === 0) return;
+    const pct = (m / totalMin) * 100;
+    const seg = document.createElement('div');
+    seg.className = 'stacked-seg';
+    seg.style.background = c.color;
+    seg.style.width = pct + '%';
+    seg.title = c.label + ': ' + pct.toFixed(0) + '%';
+    bar.appendChild(seg);
+
+    const item = document.createElement('div');
+    item.className = 'legend-item';
+    item.innerHTML = `<span class="legend-swatch" style="background:${c.color}"></span>${c.label} (${pct.toFixed(0)}%)`;
+    legend.appendChild(item);
+  });
+  if (bar.children.length === 0) {
+    bar.innerHTML = '<div style="height:28px; background:var(--glow); border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:0.85rem; color:var(--muted);">Pick categories on each workflow to see this.</div>';
+  }
+}
+
+function renderDonut() {
+  const svg = document.getElementById('chart-donut');
+  const legend = document.getElementById('chart-donut-legend');
+  svg.innerHTML = '';
+  legend.innerHTML = '';
+
+  let owner = 0, va = 0, automated = 0;
+  state.workflows.forEach(w => {
+    const mult = FREQ_MULTIPLIER[w.frequency] || 1;
+    w.tasks.forEach(t => {
+      const tm = (parseFloat(t.minutes) || 0) * mult;
+      if (t.who === 'Owner') owner += tm;
+      else if (t.who === 'VA') va += tm;
+      else if (t.who === 'Both') { owner += tm/2; va += tm/2; }
+      else if (t.who === 'Automated') automated += tm;
+    });
+  });
+  const total = owner + va + automated;
+  if (total === 0) {
+    svg.innerHTML = `<circle cx="18" cy="18" r="15.9" fill="none" stroke="#e6e1d9" stroke-width="3.5" />`;
+    legend.innerHTML = '<span style="color:var(--muted); font-size:0.9rem;">No data yet.</span>';
+    return;
+  }
+
+  const segments = [
+    { lbl: 'Owner', val: owner, color: '#1B1F3B' },
+    { lbl: 'VA / Contractor', val: va, color: '#E0C285' },
+    { lbl: 'Automated', val: automated, color: '#A6E3E9' },
+  ];
+
+  let offset = 0;
+  const r = 15.9155;
+  const C = 2 * Math.PI * r;
+  // background ring
+  svg.innerHTML = `<circle cx="18" cy="18" r="${r}" fill="none" stroke="#f2eee7" stroke-width="3.5" />`;
+  segments.forEach(s => {
+    if (s.val === 0) return;
+    const pct = s.val / total;
+    const dash = pct * C;
+    const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    circle.setAttribute('cx', 18);
+    circle.setAttribute('cy', 18);
+    circle.setAttribute('r', r);
+    circle.setAttribute('fill', 'none');
+    circle.setAttribute('stroke', s.color);
+    circle.setAttribute('stroke-width', '3.5');
+    circle.setAttribute('stroke-dasharray', `${dash} ${C - dash}`);
+    circle.setAttribute('stroke-dashoffset', `${C - offset}`);
+    circle.setAttribute('transform', 'rotate(-90 18 18)');
+    svg.appendChild(circle);
+    offset += dash;
+  });
+
+  segments.forEach(s => {
+    if (s.val === 0) return;
+    const pct = ((s.val / total) * 100).toFixed(0);
+    const item = document.createElement('div');
+    item.className = 'legend-item';
+    item.innerHTML = `<span class="legend-swatch" style="background:${s.color}"></span>${s.lbl} (${pct}%)`;
+    legend.appendChild(item);
+  });
+}
+
+function renderRanking() {
+  const tbody = document.getElementById('ranking-body');
+  tbody.innerHTML = '';
+  const rows = state.workflows.map(w => ({
+    name: w.name || 'Unnamed',
+    cat: (CATEGORIES.find(c => c.value === w.category) || {}).label || '—',
+    hrs: workflowWeeklyMinutes(w) / 60,
+    cost: workflowWeeklyCost(w)
+  })).sort((a,b) => b.cost - a.cost);
+
+  if (rows.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="4" style="color:var(--muted); text-align:center;">No workflows added.</td></tr>';
+    return;
+  }
+  rows.forEach(r => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${r.name}</td><td>${r.cat}</td><td>${r.hrs.toFixed(1)}</td><td>${fmtMoney(r.cost)}</td>`;
+    tbody.appendChild(tr);
+  });
+}
+
+/* =====================================================
+   RECOMMENDATION ENGINE
+   Heuristics tuned for solopreneurs ($100k-$250k AUD).
+   Cheap, simple, ship-in-weeks-not-months.
+===================================================== */
+// Helpers
+function setText(id, val) {
+  const el = document.getElementById(id);
+  if (el) el.textContent = val;
+}
+function setHTML(id, val) {
+  const el = document.getElementById(id);
+  if (el) el.innerHTML = val;
+}
+
+/* =====================================================
+   ROI CLASSIFIER
+   Classifies an Owner-marked task by likely ROI.
+   - "keep": work that should stay with the owner
+     (live coaching, sales calls, strategy, founder content)
+   - "delegate": work that doesn't need the owner
+     (admin, scheduling, posting, recaps, formatting)
+   - "mixed": ambiguous, needs human judgement
+===================================================== */
+const ROI_KEEP_KEYWORDS = [
+  'call','live','coaching','coach','1:1','one-on-one','session','strategy',
+  'sales','discovery','consult','onboard','interview','record','speak',
+  'teach','present','keynote','podcast','founder','strategic','decide',
+  'review','approve','offer design','pricing','client meeting','partner'
+];
+const ROI_DELEGATE_KEYWORDS = [
+  'schedule','post','upload','format','edit','transcrib','recap','reply',
+  'respond','comment','dm','admin','tracker','data entry','paste','send email',
+  'email send','invoice','tag','metric','report','organise','organize','file',
+  'rename','sort','move','copy','clean','dump','update sheet','update tracker'
+];
+function classifyTaskROI(taskName) {
+  if (!taskName) return 'mixed';
+  const lower = taskName.toLowerCase();
+  if (ROI_DELEGATE_KEYWORDS.some(k => lower.includes(k))) return 'delegate';
+  if (ROI_KEEP_KEYWORDS.some(k => lower.includes(k))) return 'keep';
+  return 'mixed';
+}
+
+/* =====================================================
+   PER-TASK TIP ENGINE
+   For every task: returns a verdict (keep / delegate /
+   review / delete) plus a specific shortening tip with
+   estimated minutes saved per occurrence.
+===================================================== */
+function refineVerdict(result, task) {
+  const name = (task.name || '').toLowerCase();
+  // OPTIMIZE: VA or Automated already doing the work, so DELEGATE doesn't apply,
+  // but the tip still has shortening / further-automation advice.
+  if ((task.who === 'VA' || task.who === 'Automated') && result.verdict === 'delegate') {
+    return { ...result, verdict: 'optimize' };
+  }
+  // AMPLIFY: high-leverage owner work where MORE time pays back. Reinvest saved
+  // hours from DELEGATE / OPTIMIZE / DELETE work into AMPLIFY tasks.
+  const isAmplifyPattern = /sales.{0,10}call|discovery|consult.{0,10}call|brainstorm.{0,15}(content|idea|topic)|content idea|record.{0,10}(podcast|video|content|module)|networking|partnership|customer.{0,10}interview|founder content|speaking|keynote/i.test(name);
+  if (task.who === 'Owner' && isAmplifyPattern && (result.verdict === 'keep' || result.verdict === 'delegate' || result.verdict === 'review')) {
+    return { ...result, verdict: 'amplify' };
+  }
+  return result;
+}
+
+function generateTaskTip(task, workflowTools) {
+  const name = (task.name || '').toLowerCase();
+  const mins = parseFloat(task.minutes) || 0;
+  const cap = (val, min) => Math.max(min, Math.round(val));
+  const tools = (workflowTools || []).map(t => t.toLowerCase());
+  const has = (toolName) => tools.some(t => t.includes(toolName.toLowerCase()));
+
+  // Smart AI picker: returns the tool name + an optional justification line
+  // that appears in the tip when we override the user's stack with a better choice.
+  const pickAI = (taskCategory) => {
+    const userClaude = has('claude');
+    const userChatGPT = has('chatgpt');
+    const userNLM = has('notebooklm');
+
+    // Voice-critical work: Claude wins regardless of stack
+    if (taskCategory === 'voice') {
+      if (userClaude) return { tool: 'Claude', note: '' };
+      if (userChatGPT) return {
+        tool: 'Claude',
+        note: ' (You listed ChatGPT in your stack and that works too. For voice-heavy writing where tone consistency matters across drafts, Claude tends to outperform. Worth A/B-testing the same prompt in both.)'
+      };
+      return { tool: 'Claude', note: '' };
+    }
+    // Synthesis from sources: NotebookLM wins
+    if (taskCategory === 'synthesis') {
+      if (userNLM) return { tool: 'NotebookLM', note: '' };
+      if (userClaude) return { tool: 'NotebookLM (or Claude with your sources pasted in)', note: '' };
+      if (userChatGPT) return { tool: 'NotebookLM', note: ' (NotebookLM is purpose-built for synthesising from your own sources, which is what this task is. Different tool to ChatGPT, free to use.)' };
+      return { tool: 'NotebookLM', note: '' };
+    }
+    // General: respect stack, default to Claude
+    if (userClaude) return { tool: 'Claude', note: '' };
+    if (userChatGPT) return { tool: 'ChatGPT', note: '' };
+    if (userNLM) return { tool: 'NotebookLM', note: '' };
+    return { tool: 'Claude', note: '' };
+  };
+
+  const claudeSkillNote = ' Worth setting this up as a custom Claude Skill so it runs identically every time and does not drift.';
+  const hasFireflies = has('fireflies') || has('granola') || has('otter');
+  const transcriptSource = hasFireflies ? `your ${has('fireflies') ? 'Fireflies' : (has('granola') ? 'Granola' : 'Otter')} transcript` : 'the session transcript (Fireflies, Granola or Otter all auto-capture this)';
+  const automationLine = ' If you want to wire this into a full pipeline: n8n (free, self-hosted), Make (visual, paid), or Zapier (easiest, paid) all bridge whatever stack you are on.';
+
+  if (!name) return refineVerdict({ verdict: 'review', tip: 'Add a task name to get a recommendation.', savedMins: 0 }, task);
+
+  // KEEP patterns: live, sales, founder-facing work
+  if (/run.{0,10}(live|call|session|workshop|coaching|group)|live call|group call/i.test(name)) {
+    return refineVerdict({ verdict: 'keep', tip: 'You cannot shorten the call itself. The leak (if any) is in the prep and recap around it. Look there.', savedMins: 0 }, task);
+  }
+  if (/sales.{0,10}call|discovery|consult/i.test(name)) {
+    return refineVerdict({ verdict: 'keep', tip: 'Keep the call. A pre-call qualifying form filters bad-fits and saves the call slot for closers, not tyre-kickers.', savedMins: 0 }, task);
+  }
+  if (/onboard.{0,10}(call|session)|kickoff/i.test(name)) {
+    return refineVerdict({ verdict: 'keep', tip: 'Keep the human element of onboarding. Templatise the operational pieces (welcome email, portal setup, resource pack) so they run on rails.', savedMins: 0 }, task);
+  }
+  if (/record.{0,10}(video|content|module|training|loom)/i.test(name)) {
+    return refineVerdict({ verdict: 'keep', tip: 'You are the face of the brand. Record once, repurpose into clips, captions, and emails. Your time goes far further than the recording itself.', savedMins: 0 }, task);
+  }
+  if (/strategy|strategic|decide|approve|plan.{0,10}quarter|review proposal/i.test(name)) {
+    return refineVerdict({ verdict: 'keep', tip: 'Decisions and judgement work stays with you. The leak is in everything that surrounds the decision.', savedMins: 0 }, task);
+  }
+
+  // DELETE patterns: tasks that may not need to exist
+  if (/track|metric|log activity|spreadsheet|review.{0,10}(metric|number|stat)|data.{0,5}entry/i.test(name)) {
+    return refineVerdict({ verdict: 'delete', tip: 'Question if anyone actually uses this to make a decision. If yes: automate it via Notion DB or a native dashboard. If no: delete it entirely. Reports that nobody reads are pure overhead.', savedMins: mins }, task);
+  }
+  if (/manual.{0,10}(sync|copy|paste|import|export)/i.test(name)) {
+    return refineVerdict({ verdict: 'delete', tip: 'Manual sync between two tools is automation territory. Native integration or a one-off Zapier flow gets this to zero minutes.', savedMins: mins }, task);
+  }
+  if (/transcrib/i.test(name)) {
+    return refineVerdict({ verdict: 'delete', tip: 'Fireflies, Granola, or Otter auto-transcribe. This task should be zero minutes of your week.', savedMins: mins }, task);
+  }
+
+  // DELEGATE / SHORTEN patterns: tool-specific, consultant-grade
+  if (/prep.{0,10}slide|slide.{0,10}prep|slide deck|prepare slide/i.test(name)) {
+    const target = cap(mins * 0.3, 10);
+    const designTool = has('canva') ? 'your Canva templates' : 'Canva';
+    const ai = pickAI('voice');
+    return refineVerdict({ verdict: 'delegate', tip: `${ai.tool} with your past slide decks as context drafts the structure. Your VA finishes formatting in ${designTool}.${ai.tool.includes('Claude') ? claudeSkillNote : ''}${ai.note} Cut from ${mins} to about ${target} min per occurrence.`, savedMins: Math.max(0, mins - target) }, task);
+  }
+  if (/upload.{0,15}(record|video|kajabi|drive|portal)/i.test(name)) {
+    let line = '';
+    if (has('kajabi') && has('google drive')) line = 'You already have Kajabi and Google Drive in your stack. Native Kajabi-Drive integration auto-uploads new files. Set this up once and shave to near-zero ongoing.';
+    else if (has('kajabi')) line = 'You have Kajabi in your stack. Use its native Drive or Dropbox integration to auto-upload recordings. Shave to near-zero.';
+    else line = 'Native Kajabi or Google Drive integration auto-uploads. Shave to near-zero ongoing.';
+    return refineVerdict({ verdict: 'delegate', tip: line + automationLine, savedMins: Math.max(0, mins - 2) }, task);
+  }
+  if (/send.{0,10}(recap|email|wrap|follow)|recap email|follow-up email/i.test(name)) {
+    const target = cap(mins * 0.3, 8);
+    const ai = pickAI('voice');
+    return refineVerdict({ verdict: 'delegate', tip: `${ai.tool} drafts the recap straight from ${transcriptSource} using your tone guide.${ai.tool.includes('Claude') ? claudeSkillNote : ''}${ai.note} VA reviews and sends. Cut from ${mins} to about ${target} min per occurrence.`, savedMins: Math.max(0, mins - target) }, task);
+  }
+  if (/populat.{0,15}portal|update.{0,15}portal|client portal|student portal/i.test(name)) {
+    const target = cap(mins * 0.4, 10);
+    const portalTool = has('kajabi') ? 'Kajabi' : (has('notion') ? 'Notion' : 'your portal');
+    const ai = pickAI('voice');
+    return refineVerdict({ verdict: 'delegate', tip: `${ai.tool} drafts the weekly homework, suggested next steps, and resource links from ${transcriptSource}. VA pastes into ${portalTool}.${ai.tool.includes('Claude') ? claudeSkillNote : ''}${ai.note} For full automation: ${has('notion') ? 'Notion API' : portalTool + ' API'} plus n8n or Make to populate every student's portal in one trigger. Cut from ${mins} to about ${target} min.`, savedMins: Math.max(0, mins - target) }, task);
+  }
+
+  // ===== Reply / respond patterns (split by context, no fake AI drafts for personal DMs) =====
+  // Personal DMs: Wispr Flow + ManyChat for repeats. NOT AI drafts (reads fake).
+  if (/(reply|respond).{0,15}(dm|direct message|instagram message|ig message)/i.test(name)) {
+    const target = cap(mins * 0.55, 12);
+    return refineVerdict({ verdict: 'delegate', tip: `Personal DMs need to read like you, so do not AI-draft them. Use Wispr Flow voice-to-text to cut typing time in half. For the recurring "where do I find X" questions, set up ManyChat with auto-replies and resource links. Cut from ${mins} to about ${target} min.`, savedMins: Math.max(0, mins - target) }, task);
+  }
+  // Student / community questions (Slack, forum, course): Wispr + Loom for repeat answers
+  if (/(reply|respond).{0,25}(student|follow.?up|community|slack|course|module)|student.{0,10}(question|reply|response)/i.test(name)) {
+    const target = cap(mins * 0.6, 20);
+    return refineVerdict({ verdict: 'review', tip: `Use Wispr Flow voice-to-text to cut typing time. The bigger win: when you spot a question you have answered before, record a Loom answering it once. Drop the Loom into your FAQ doc or course portal. Next time the question comes in, you (or a VA) link to the Loom instead of retyping. Cut from ${mins} to about ${target} min once a few Looms are banked.`, savedMins: Math.max(0, mins - target) }, task);
+  }
+  // Homework / submission review: Loom is the right tool
+  if (/(review|feedback|mark|assess).{0,15}(homework|submission|assignment|module|practice|work)|grade/i.test(name)) {
+    const target = cap(mins * 0.5, 15);
+    return refineVerdict({ verdict: 'keep', tip: `Use Loom to record video feedback instead of writing it out. Faster for you, more personal for the student, and they re-watch it. Where you see the same issue across multiple students, record one Loom and reuse it. Cut from ${mins} to about ${target} min.`, savedMins: Math.max(0, mins - target) }, task);
+  }
+  // Public comment engagement (social): VA territory
+  if (/(reply|respond|engage).{0,15}(comment|post.{0,10}reply)/i.test(name)) {
+    const target = cap(mins * 0.4, 15);
+    return refineVerdict({ verdict: 'delegate', tip: `Routine engagement (likes, thanks, simple acknowledgements) goes to your VA. You step in only on high-value conversations (potential clients, peer collaborators). Wispr Flow voice-to-text for the ones you do handle. Cut from ${mins} to about ${target} min.`, savedMins: Math.max(0, mins - target) }, task);
+  }
+  // General email replies: Wispr Flow + Claude Skill for templatable patterns only
+  if (/(reply|respond).{0,15}(email|inbox|message)/i.test(name)) {
+    const target = cap(mins * 0.5, 15);
+    const ai = pickAI('voice');
+    return refineVerdict({ verdict: 'delegate', tip: `Wispr Flow voice-to-text cuts typing time. Where you notice repeat patterns (the same question, the same objection, the same FAQ), build a ${ai.tool} Skill that drafts those specific replies in your voice.${ai.note} Do not blanket AI-draft personal email, it reads fake. Cut from ${mins} to about ${target} min.`, savedMins: Math.max(0, mins - target) }, task);
+  }
+
+  // ===== Writing tasks =====
+  // Captions / social posts: AI drafts work fine. Lean Claude unless they only have ChatGPT and the task is low-stakes.
+  if (/(write|draft).{0,10}(caption|post|tweet|reel.{0,5}copy)|caption.{0,10}(write|draft)/i.test(name)) {
+    const target = cap(mins * 0.4, 10);
+    const ai = pickAI('general');
+    return refineVerdict({ verdict: 'delegate', tip: `${ai.tool} drafts the first version using your past captions as voice training. You edit only. VA schedules and posts.${ai.tool === 'Claude' ? claudeSkillNote : ''} Cut from ${mins} to about ${target} min.`, savedMins: Math.max(0, mins - target) }, task);
+  }
+  // Newsletter: voice-critical, lean Claude
+  if (/(write|draft|create).{0,10}(newsletter|email broadcast)|newsletter|broadcast email/i.test(name)) {
+    const target = cap(mins * 0.4, 15);
+    const ai = pickAI('voice');
+    const baseRec = ai.tool.includes('Claude')
+      ? `Build a ${ai.tool} Skill trained on your past newsletters: tone, structure, voice, your standard sections. Or NotebookLM if you'd rather feed it past issues as sources.`
+      : `${ai.tool} with your past newsletters as sources gets you a strong first draft fast.`;
+    return refineVerdict({ verdict: 'delegate', tip: `${baseRec}${ai.note} You edit, VA schedules and sends. Cut from ${mins} to about ${target} min.`, savedMins: Math.max(0, mins - target) }, task);
+  }
+  // Long-form copy (sales pages, landing, course modules): voice-critical
+  if (/(write|draft|create).{0,10}(sales page|landing|module|lesson|outline|copy|article|blog)/i.test(name)) {
+    const target = cap(mins * 0.4, 20);
+    const ai = pickAI('voice');
+    return refineVerdict({ verdict: 'delegate', tip: `${ai.tool} for the first draft, with a Skill trained on your past long-form content (so it picks up your voice, structure, hooks).${ai.tool.includes('Claude') ? claudeSkillNote : ''}${ai.note} You edit. VA formats and publishes. Cut from ${mins} to about ${target} min.`, savedMins: Math.max(0, mins - target) }, task);
+  }
+
+  if (/design.{0,15}(carousel|graphic|post|reel)|canva|create.{0,5}graphic/i.test(name)) {
+    const target = cap(mins * 0.4, 15);
+    const designTool = has('canva') ? 'your existing Canva templates' : 'Canva templates';
+    return refineVerdict({ verdict: 'delegate', tip: `Build ${designTool} once. Use AI image prompts (Midjourney, DALL-E, Sora) for variety where you need it. VA assembles from there. Cut from ${mins} to about ${target} min.`, savedMins: Math.max(0, mins - target) }, task);
+  }
+  if (/schedule.{0,10}(post|content|social)/i.test(name)) {
+    return refineVerdict({ verdict: 'delegate', tip: 'Buffer or Later. Schedule the entire week in one batched session. Should be no more than 5 min total per week, not per post.' + automationLine, savedMins: Math.max(0, mins - 5) }, task);
+  }
+  if (/edit.{0,15}(video|recording|loom|reel)/i.test(name)) {
+    return refineVerdict({ verdict: 'delegate', tip: 'Light trim only for delivery content (your audience cares about substance, not polish). For sales content, hire a video VA at $25-40 AUD/hr. Cut by about 60%.', savedMins: Math.max(0, mins * 0.6) }, task);
+  }
+  if (/triage|inbox|email.{0,10}(check|sort|review|process)/i.test(name)) {
+    const target = cap(mins * 0.3, 10);
+    const ai = pickAI('voice');
+    return refineVerdict({ verdict: 'delegate', tip: `Superhuman AI or Shortwave filters and labels everything. Only "needs you" messages reach your eyes. The repeat patterns (FAQ-style replies) can be templated as a ${ai.tool} Skill so even your responses are mostly drafted before you start.${ai.note} Cut from ${mins} to about ${target} min.`, savedMins: Math.max(0, mins - target) }, task);
+  }
+  if (/brainstorm.{0,15}(content|idea|topic|caption)|content idea|topic ideation/i.test(name)) {
+    const target = cap(mins * 0.4, 10);
+    return refineVerdict({ verdict: 'delegate', tip: `NotebookLM is the right tool for this. Drop in your past content, your DM and comment screenshots, and your offer pages as sources. It generates topic ideas grounded in what has actually worked for you, not generic prompts. Cut from ${mins} to about ${target} min.`, savedMins: Math.max(0, mins - target) }, task);
+  }
+  if (/admin|operation|tag|invoice|billing|file|organise|organize|sort|rename|fold/i.test(name)) {
+    return refineVerdict({ verdict: 'delegate', tip: 'Pure delegation territory. A part-time VA at $30-40 AUD/hr handles this faster than the time it would take you to set up an automation, and they catch the edge cases the automation would miss.', savedMins: mins }, task);
+  }
+  if (/research|gather/i.test(name)) {
+    const target = cap(mins * 0.5, 15);
+    return refineVerdict({ verdict: 'delegate', tip: `NotebookLM for synthesis from your own sources (your existing IP, past content, client transcripts). Perplexity for fresh web research with citations. Both cut research time by half. VA does the final structuring. Cut from ${mins} to about ${target} min.`, savedMins: Math.max(0, mins - target) }, task);
+  }
+
+  // Default fallback
+  return refineVerdict({ verdict: 'review', tip: 'No clear pattern from the task name. Worth walking through this one in the audit call to find the actual fix.', savedMins: 0 }, task);
+}
+
+function generateWorkflowSummary(w) {
+  const mult = FREQ_MULTIPLIER[w.frequency] || 1;
+  const tasks = (w.tasks || []).filter(t => (parseFloat(t.minutes) || 0) > 0);
+  if (tasks.length === 0) return 'Add tasks to this workflow to get a recommendation.';
+
+  // Calculate savings using the right rate per task (owner or VA)
+  const ownerRate = parseFloat(state.rateOwner) || 0;
+  const vaRaw = parseFloat(state.rateVa);
+  const vaRate = (isNaN(vaRaw) || vaRaw <= 0) ? ownerRate : vaRaw;
+
+  let totalSavedWeeklyMins = 0;
+  let totalSavedWeeklyDollars = 0;
+  let ownerSavedMins = 0, vaSavedMins = 0;
+  const critical = [];
+  const deleteList = [];
+  const amplifyList = [];
+
+  tasks.forEach(t => {
+    const tip = generateTaskTip(t, w.tools);
+    const weeklySaved = (tip.savedMins || 0) * mult;
+    totalSavedWeeklyMins += weeklySaved;
+    let rate = 0;
+    if (t.who === 'Owner') { rate = ownerRate; ownerSavedMins += weeklySaved; }
+    else if (t.who === 'VA') { rate = vaRate; vaSavedMins += weeklySaved; }
+    else if (t.who === 'Both') { rate = (ownerRate + vaRate) / 2; ownerSavedMins += weeklySaved/2; vaSavedMins += weeklySaved/2; }
+    totalSavedWeeklyDollars += (weeklySaved / 60) * rate;
+    if (tip.verdict === 'delete') deleteList.push(t.name || 'Unnamed task');
+    if (tip.verdict === 'amplify') amplifyList.push(t.name || 'Unnamed task');
+    if ((tip.savedMins || 0) >= 15) critical.push({ name: t.name || 'Unnamed task', saved: tip.savedMins });
+  });
+  critical.sort((a, b) => b.saved - a.saved);
+
+  if (totalSavedWeeklyMins === 0 && deleteList.length === 0 && amplifyList.length === 0) {
+    return 'This workflow looks reasonably tight. No obvious shortening or deletion candidates from the data alone. Worth confirming in the audit call.';
+  }
+
+  const lines = [];
+  let mainLine = `⚠️ <strong>Potential savings to the business: about ${(totalSavedWeeklyMins / 60).toFixed(1)} hrs/week</strong>`;
+  if (totalSavedWeeklyDollars > 0) {
+    mainLine += ` (worth ~${fmtMoney(totalSavedWeeklyDollars)}/week or ${fmtMoney(totalSavedWeeklyDollars * WORKING_WEEKS)}/year)`;
+  }
+  mainLine += ' if every recommendation above ships.';
+  // Add breakdown of who saves what
+  if (ownerSavedMins > 0 && vaSavedMins > 0) {
+    mainLine += ` That breaks down as ${(ownerSavedMins/60).toFixed(1)} hrs of owner time at $${ownerRate}/hr and ${(vaSavedMins/60).toFixed(1)} hrs of VA time at $${vaRate}/hr.`;
+  } else if (ownerSavedMins > 0) {
+    mainLine += ` All of it owner time at $${ownerRate}/hr.`;
+  } else if (vaSavedMins > 0) {
+    mainLine += ` All of it VA time at $${vaRate}/hr.`;
+  }
+  lines.push(mainLine);
+
+  if (critical.length > 0) {
+    lines.push(`🎯 <strong>Biggest wins:</strong> ${critical.slice(0, 2).map(c => `<strong>${escapeHtml(c.name)}</strong> (saves ${c.saved} min per occurrence)`).join(', ')}.`);
+  }
+  if (amplifyList.length > 0) {
+    lines.push(`🚀 <strong>Reinvest the saved time into:</strong> ${amplifyList.slice(0, 2).map(n => `<strong>${escapeHtml(n)}</strong>`).join(', ')}. This is high-leverage work where MORE time pays back.`);
+  }
+  if (deleteList.length > 0) {
+    lines.push(`🗑️ <strong>Worth questioning:</strong> ${deleteList.slice(0, 3).map(n => `<strong>${escapeHtml(n)}</strong>`).join(', ')} may not need to exist at all.`);
+  }
+  lines.push('📞 Bring this list to the audit call. We will pick the order, the tooling, and what to ship in the first 30 days.');
+
+  return lines.join('<br><br>');
+}
+
+/* =====================================================
+   PER-WORKFLOW PAYLOAD GENERATOR
+   Produces: headline, paragraph, bottleneck, 3 solutions,
+   recommendation, verdict, why-box, cost grid, compound.
+===================================================== */
+function buildWorkflowPayload(w) {
+  const oP = ownerPct(w);
+  const hrs = workflowWeeklyMinutes(w) / 60;
+  const cost = workflowWeeklyCost(w);
+  const annualHrs = hrs * WORKING_WEEKS;
+  const annualCost = cost * WORKING_WEEKS;
+  const cat = w.category;
+  const taskCount = w.tasks.length;
+  const ownerRate = parseFloat(state.rateOwner) || 0;
+
+  // Pattern detection
+  let pattern = 'generic';
+  if (cat === 'admin') pattern = 'admin';
+  else if (cat === 'delivery' && oP > 55) pattern = 'delivery_owner_heavy';
+  else if (cat === 'marketing' && oP > 55) pattern = 'marketing_owner_heavy';
+  else if (cat === 'sales' && oP > 55) pattern = 'sales_owner_heavy';
+  else if (cat === 'retention') pattern = 'retention';
+  else if (oP > 70) pattern = 'mostly_owner';
+  else if (taskCount >= 6) pattern = 'tool_sprawl';
+
+  // Headlines + hero paragraphs per pattern (resource-pack voice)
+  const HERO = {
+    admin: {
+      headline: "Your admin is one of the cheapest tasks in your business doing the most expensive damage.",
+      paragraph: "Hours each week go into work that doesn't need your judgement, doesn't need your IP, and doesn't grow the business. It defaulted to you because nobody else has been shown how. Until that changes, every admin hour is being paid at your rate, not at the rate the work actually warrants. That gap is where the leak lives."
+    },
+    delivery_owner_heavy: {
+      headline: "You're rebuilding the same delivery cycle every week instead of running a system that runs itself.",
+      paragraph: "Your IP is solid. Your clients get value from the work. The problem is that every cohort, every cycle, every call requires you to recreate the same content, send the same emails, and answer the same questions. The first time you taught this, custom delivery made sense. By the third, the fifth, the tenth time, you're paying yourself to redo work the system should have absorbed by now."
+    },
+    marketing_owner_heavy: {
+      headline: "Your marketing is capped at the speed of one founder who already has another job.",
+      paragraph: "Right now every piece of content runs through your hands. The strategy, the writing, the design, the scheduling, the engagement. That made sense in year one. At your stage, it's the bottleneck disguised as effort. Lead generation does not scale linearly with your typing speed. It scales with what you let other people and AI own first, while you stay the editor and the strategist instead of the production line."
+    },
+    sales_owner_heavy: {
+      headline: "Your sales calls aren't the leak. The admin around them is the silent revenue killer.",
+      paragraph: "You're closing the deals you take. The discovery calls work. The proposals land when you send them. The problem is everything that happens before and after the call: qualifying leads, drafting recaps, sending proposals, chasing follow-ups. That's where deals go cold and where your time disappears. Every hour you spend in sales admin is an hour you cannot spend running another call."
+    },
+    retention: {
+      headline: "Churn happens in the silence between sessions. You don't have a retention problem, you have a check-in problem.",
+      paragraph: "Most clients don't leave because they're unhappy. They leave because no one reached out, no one followed up, no one noticed they had gone quiet. By the time a client tells you they're cancelling, the conversation is already over. The fix isn't to deliver harder. It's to design the cadence that catches them before silence turns into churn."
+    },
+    mostly_owner: {
+      headline: "Seventy percent owner-load isn't a workflow problem. It's a structural one.",
+      paragraph: "When the founder owns the majority of a workflow, the workflow stops being a workflow. It becomes a part of the founder's job. That's fine for the first iteration of a business. It's lethal for the second. Every additional client, every additional cycle, every additional offer compounds the load until growth itself becomes the constraint. The fix isn't a heroic effort. It's a sorting exercise that most founders skip because the sort itself feels like more work."
+    },
+    tool_sprawl: {
+      headline: "Your stack isn't broken. It's just too big to run cleanly.",
+      paragraph: "The individual tools work. The individual tasks are short. The leak is the tax you pay every time you switch between them: re-orienting, copy-pasting, re-explaining context to yourself, hunting for the right doc. Multiply that switching cost across a week and you've spent half a day not on the work but on getting back to the work. Tool sprawl is the slow leak of solo businesses."
+    },
+    generic: {
+      headline: "No single bottleneck is jumping out from this workflow. That usually means the leak is hiding in plain sight.",
+      paragraph: "The data alone doesn't reveal an obvious problem here. That's actually useful information. It usually means one of two things: either the workflow is well-tuned and we leave it alone, or there's a slow leak that won't show up until we walk through it together. Either way, this one is best diagnosed in conversation, not auto-generated."
+    }
+  };
+
+  // Bottleneck text per pattern (concrete, causal, references their reality)
+  const BOTTLENECKS = {
+    admin: "Admin work isn't beneath you. It's beneath your hourly rate. At your billing rate, an hour of inbox triage and operational follow-up is worth what an entire day of VA support costs. Multiply that across a year and you're funding a phantom full-time hire who produces nothing strategic. The leak is invisible because it never shows up on a P&L line. It shows up as the things you didn't get to: the offer you didn't launch, the content you didn't ship, the lead you didn't close.",
+    delivery_owner_heavy: "This is the classic course-creator and coach trap. The lesson plan is in your head, the templates don't exist, the SOPs were never written. So every cohort starts the rebuild from scratch. You teach, you record, you upload, you reply, you remind, you chase. Every cycle. The fix isn't to teach faster. It's to template once and run forever: async modules where async makes sense, live where it actually matters, a VA on the operations in between. Your IP becomes the system, not the bottleneck.",
+    marketing_owner_heavy: "This is the founder bottleneck dressed up as marketing work. The ceiling isn't your strategy or your offer. Both are working. The ceiling is the bandwidth of one person trying to write, design, post, and reply. No solo founder breaks past that ceiling without delegating the production layer. AI handles the first draft. A VA executes and engages. You stay in review and refinement. That's the only configuration that scales without a full-time content hire.",
+    sales_owner_heavy: "Sales is a two-layer system. Layer one is the conversation, where your judgement and presence are the product. Layer two is the operational scaffolding around it: forms, transcripts, recaps, proposals, follow-ups. Layer one is your job. Layer two is the leak. Most founders try to fix this by getting better at sales, which doesn't help because sales isn't the problem. Removing the admin around sales is what lets you take more calls without working more hours.",
+    retention: "Retention is reactive instead of designed. There is no scheduled outreach, no early-warning signal when activity drops, no automatic trigger when a client goes quiet. So clients drift, and the only signal you ever get is the cancellation email. A 30/60/90 cadence with personalised AI-drafted check-ins flips this entirely. You're reaching out before you would have noticed anything was wrong, which is the exact window where intervention still works.",
+    mostly_owner: "This is the founder bottleneck at its purest. Not a tools problem. Not a process problem. A delegation problem. The fix is a sorting exercise: anything below your hourly rate goes to a VA. Anything that's a repeated decision goes to AI. What's left is your actual job. Most founders skip this sort because the sorting itself feels like more work. It isn't. It's the only work that compounds. Every hour you invest in delegation pays back tenfold across the next year.",
+    tool_sprawl: "Tool sprawl isn't dramatic enough to notice in any single instance. It's expensive enough to drain a founder by lunchtime. Every context-switch is a tax. Every handoff between tools is friction. The fix isn't more tools. It's fewer. Consolidate where you can. Document the handoffs you can't consolidate. Let AI handle the rote stitching between systems. The win is rarely visible in any one task. It shows up as a clearer head and a faster week.",
+    generic: "Sometimes the right answer is to slow down before recommending a fix. Not every workflow has a clean bottleneck pattern. The risk of forcing a recommendation here is that we fix something that wasn't broken and miss the actual leak. Bring this one to the audit call and we'll find it the right way: tasks first, handoffs second, what's actually costing you third."
+  };
+
+  // Three solutions (Manual / Semi-Auto / Fully-Auto) with category-flavoured details
+  const SOLUTIONS_BY_PATTERN = {
+    admin: {
+      manual:    { approach: "Document the SOP. You still do the task but faster.", tools: "Loom, Notion", time: "1-2 hours", effort: "High. Same workload.", cost: "$0/mo", best: "Tiny businesses with no VA budget yet." },
+      semiauto:  { approach: "Hand the SOP to a part-time VA. You review weekly.", tools: "Loom, Notion, VA contractor", time: "1-2 weeks", effort: "Medium. You review, VA does.", cost: "$200-400/mo VA", best: "Most solopreneurs. Sweet spot." },
+      fullyauto: { approach: "VA runs admin. AI triages your inbox so only 'needs you' messages reach you.", tools: "Loom, Notion, VA, ChatGPT/Claude", time: "2-3 weeks", effort: "Low. Spot-check weekly.", cost: "$200-450/mo total", best: "Solo operators ready to fully delegate admin." }
+    },
+    delivery_owner_heavy: {
+      manual:    { approach: "Build a checklist for delivery. Same work, faster.", tools: "Notion checklist", time: "1 day", effort: "High. Still all you.", cost: "$0/mo", best: "First-time delivery iteration only." },
+      semiauto:  { approach: "Template + VA for ops between calls. You stay on live delivery.", tools: "Notion templates, Loom, VA", time: "2-3 weeks", effort: "Medium. You teach, VA runs ops.", cost: "$200-400/mo VA", best: "Group programs and cohorts." },
+      fullyauto: { approach: "Async modules for what's repeated. VA on ops. AI for student support.", tools: "Loom, Notion or Kajabi, VA, ChatGPT/Claude", time: "3-5 weeks", effort: "Low. Spot-check + live delivery only.", cost: "$200-450/mo total", best: "Course / membership models with repeat content." }
+    },
+    marketing_owner_heavy: {
+      manual:    { approach: "Build a content template doc. Same effort but more consistent.", tools: "Notion, Canva", time: "1 week", effort: "High. Still all you.", cost: "$0/mo", best: "Pre-AI workflow. Not recommended in 2026." },
+      semiauto:  { approach: "AI drafts. You edit and post. VA on engagement.", tools: "ChatGPT/Claude, Canva, VA", time: "2 weeks", effort: "Medium. You review, AI drafts.", cost: "$20-50/mo AI + $200-400/mo VA", best: "Founders who want voice control." },
+      fullyauto: { approach: "AI drafts in your voice. VA edits and posts. You only review weekly.", tools: "ChatGPT/Claude, Canva templates, VA, Buffer", time: "2-3 weeks", effort: "Low. Weekly review.", cost: "$20-450/mo total", best: "Service-based businesses with consistent content cadence." }
+    },
+    sales_owner_heavy: {
+      manual:    { approach: "Tighter SOP for follow-ups. You still do everything.", tools: "Notion", time: "1 week", effort: "High.", cost: "$0/mo", best: "Pre-volume founders." },
+      semiauto:  { approach: "Form-based discovery + AI transcripts. VA sends recaps.", tools: "Calendly, JotForm, Fireflies/Granola, VA", time: "1-2 weeks", effort: "Medium.", cost: "$30-80/mo + VA", best: "Founders running 5+ sales calls/week." },
+      fullyauto: { approach: "Pre-call form, AI summary, VA recap and follow-up sequence. You only run the call.", tools: "Calendly, JotForm, Fireflies, VA, Notion CRM", time: "2-3 weeks", effort: "Low. Calls only.", cost: "$30-450/mo total", best: "Founders with strong sales close rate, weak follow-up." }
+    },
+    retention: {
+      manual:    { approach: "Calendar reminders for every client. You check in manually.", tools: "Calendar", time: "1 day", effort: "High.", cost: "$0/mo", best: "<10 clients only." },
+      semiauto:  { approach: "Template emails. VA sends on schedule. You review responses.", tools: "Notion, Gmail templates, VA", time: "3-5 days", effort: "Medium.", cost: "$150-300/mo VA", best: "Most service businesses." },
+      fullyauto: { approach: "30/60/90 cadence. AI drafts personalised check-ins from client activity. VA sends.", tools: "Notion, ChatGPT/Claude, VA, Calendly", time: "1 week", effort: "Low. Step in only when flagged.", cost: "$150-330/mo", best: "Coaches, course creators, membership owners." }
+    },
+    mostly_owner: {
+      manual:    { approach: "Better calendar discipline. Batch similar tasks.", tools: "Calendar", time: "1 day", effort: "High. Same workload.", cost: "$0/mo", best: "Pre-delegation founders." },
+      semiauto:  { approach: "Sort tasks: VA gets the below-rate work, you keep the brain work.", tools: "Loom, Notion, VA", time: "2 weeks", effort: "Medium.", cost: "$200-400/mo VA", best: "Most solo founders. The first delegation pass." },
+      fullyauto: { approach: "VA on below-rate tasks. AI on repeated decisions. You only do the high-value brain work.", tools: "Loom, Notion, VA, ChatGPT/Claude", time: "2-3 weeks", effort: "Low.", cost: "$200-450/mo total", best: "Founders ready to stop being the bottleneck." }
+    },
+    tool_sprawl: {
+      manual:    { approach: "Document each handoff. Same tools, less confusion.", tools: "Notion handoff doc", time: "1 week", effort: "High.", cost: "$0/mo", best: "When tool consolidation isn't possible." },
+      semiauto:  { approach: "Consolidate 2-3 tools. Document remaining handoffs.", tools: "Existing tools, audit + consolidate", time: "2 weeks", effort: "Medium.", cost: "$0-30/mo savings", best: "Most teams with 8+ tools." },
+      fullyauto: { approach: "Consolidate tools + AI handles rote handoffs + VA fills the gaps.", tools: "Notion, ChatGPT/Claude, VA, fewer apps", time: "3-4 weeks", effort: "Low.", cost: "$50-300/mo (often saves money)", best: "Teams paying for tools they don't need." }
+    },
+    generic: {
+      manual:    { approach: "Tighten what you have. Document the steps.", tools: "Whatever you use today", time: "1 week", effort: "High.", cost: "$0/mo", best: "When the data isn't conclusive." },
+      semiauto:  { approach: "Add a VA or AI to the heaviest step.", tools: "Plus VA or ChatGPT/Claude", time: "1-2 weeks", effort: "Medium.", cost: "$20-300/mo", best: "Worth piloting on the heaviest task." },
+      fullyauto: { approach: "TBC. We'll map the right level of automation in our call.", tools: "TBC in audit", time: "TBC", effort: "TBC", cost: "TBC", best: "Most cases. Audit-first." }
+    }
+  };
+
+  // Recommendation reasoning per pattern
+  const REC = {
+    admin: {
+      title: "Option 3: Fully delegated admin with AI inbox triage.",
+      why1: "Tightening the manual approach keeps the work on your plate. The whole point is to stop doing it.",
+      why2: "Semi-auto is the safe middle option. But admin doesn't need a human review step. It just needs an SOP and a reliable VA.",
+      whynow: "This is the cheapest delegation in your business. Every week you wait, you pay yourself $300+/hr to do work a $40/hr VA could handle.",
+      verdict: "Cheapest, fastest fix in your audit. Start here."
+    },
+    delivery_owner_heavy: {
+      title: "Option 3: Async modules + VA ops + AI student support.",
+      why1: "A checklist alone keeps the leak. You're still rebuilding the same content every cycle.",
+      why2: "Templates with a VA help, but if the IP is in your head, async modules unlock real scale. The VA can't pre-record what only you can teach.",
+      whynow: "Every cohort you run without this is another cycle of repeat work. Build it once. Ship it forever.",
+      verdict: "Highest-leverage fix for course / cohort businesses."
+    },
+    marketing_owner_heavy: {
+      title: "Option 3: AI drafts in your voice. VA edits and posts.",
+      why1: "Manual content keeps you as the bottleneck. The ceiling is your typing speed.",
+      why2: "Doing AI drafts but still posting yourself wastes the win. Posting is the easiest part to delegate.",
+      whynow: "AI tooling crossed the 'good enough for first draft' line in 2024. Founders who haven't migrated yet are paying themselves to do work AI does in seconds.",
+      verdict: "Reclaim your strategic hours. Marketing should not be your job."
+    },
+    sales_owner_heavy: {
+      title: "Option 3: Form discovery + AI summary + VA follow-up.",
+      why1: "Tightening manual follow-up means you still write every recap and every cold-lead nudge. Not scalable.",
+      why2: "Semi-auto helps but the VA still needs you to draft each recap. AI removes that step.",
+      whynow: "Most lost deals die in the silence between the call and the proposal. Closing that gap is pure margin.",
+      verdict: "Take more calls. Work the same hours. Close more deals."
+    },
+    retention: {
+      title: "Option 3: 30/60/90 cadence with AI-drafted check-ins.",
+      why1: "Manual check-ins fail because you have a business to run. Reactive retention isn't a system, it's hope.",
+      why2: "Template emails are better than nothing but feel generic. AI personalisation from client activity is what makes them land.",
+      whynow: "Retention fixes have the fastest payback in your business. One saved client funds the entire system for a year.",
+      verdict: "Cheapest revenue protection in your business."
+    },
+    mostly_owner: {
+      title: "Option 3: VA on below-rate work. AI on repeated decisions.",
+      why1: "Calendar discipline alone keeps the workload. You'd just be doing the same things in tighter blocks.",
+      why2: "First delegation pass to a VA is good. Layering AI on top is what gets you back the strategic hours.",
+      whynow: "70%+ owner-load means the business stalls when you stall. Fixing this is non-negotiable for scale.",
+      verdict: "Stop being the bottleneck."
+    },
+    tool_sprawl: {
+      title: "Option 3: Tool consolidation + AI handoffs + VA on the rest.",
+      why1: "Documenting handoffs without consolidating just gives you a thicker doc to maintain.",
+      why2: "Consolidating tools is good but the surviving handoffs still cost time. AI on the rote ones removes that.",
+      whynow: "Tool sprawl compounds. Every new tool adds another handoff. Cut now or it gets worse.",
+      verdict: "Less tools. Less switching. More output."
+    },
+    generic: {
+      title: "Audit-first approach.",
+      why1: "Skipping the conversation risks fixing the wrong thing.",
+      why2: "Same.",
+      whynow: "Best ROI on your time is the call itself. Then we know exactly what to ship.",
+      verdict: "Bring this workflow to the call."
+    }
+  };
+
+  // Why-box analogies per pattern
+  const WHYBOX = {
+    admin: "Admin is like the dishes after dinner. Someone has to do them, but it shouldn't be the chef. The chef cooks the next meal. The dishes get loaded into the dishwasher (the VA + AI inbox triage), and run on their own.",
+    delivery_owner_heavy: "Right now your delivery is like a chef cooking every meal from raw ingredients, every time. Async modules and templates are the prep station. Same dishes, but the heavy lifting is done before service.",
+    marketing_owner_heavy: "Marketing is like a junior copywriter who's read your last ten posts. AI drafts are that junior. They're not perfect. They're 80% there. You're the editor, not the writer.",
+    sales_owner_heavy: "Sales calls are the chef's kiss moments. Don't outsource them. But the table-setting, the order-taking, the cleanup, that's all stuff someone (or something) else can run.",
+    retention: "Retention is like a smoke alarm. You don't want to find out about the fire when the house is already burning. You want the alert before it gets bad.",
+    mostly_owner: "Right now you're the chef AND the dishwasher AND the waiter. The first hire isn't a sous chef, it's a dishwasher. Cheapest, fastest, biggest return.",
+    tool_sprawl: "Right now you're carrying ten kitchen tools. The Swiss Army knife isn't sexier, but it cuts through the same problems with fewer trips to the drawer.",
+    generic: "Some workflows don't have an obvious bottleneck. They have a slow leak. Find that on the call and you save more than fixing the loud problems."
+  };
+
+  // Goals: pull and clean for embedding
+  const userGoals = (state.goals || []).filter(g => g && g.trim());
+  const goalsLine = userGoals.length > 0
+    ? userGoals.map((g, i) => `Goal ${i+1}: ${g.trim()}`).join('. ')
+    : '';
+  const primaryGoal = userGoals[0] || '';
+
+  // Opportunity cost (what you're not building because of this leak)
+  const opportunity = {
+    admin: `Every admin hour is an hour not invested in the work that grows the business. The strategic projects, the new offers, the partnerships, the content that brings in leads. None of that gets oxygen until admin stops eating your week.${primaryGoal ? ` You said you wanted: "${primaryGoal}". This workflow is one of the reasons that goal still feels like a stretch.` : ''}`,
+    delivery_owner_heavy: `The next-tier offer stays theoretical. The productised version of your work doesn't get built. The team you wanted to grow into stays a one-person show because every cycle absorbs the time it would take to design what's next.${primaryGoal ? ` You said you wanted: "${primaryGoal}". That goal can't move forward while delivery owns your calendar.` : ''}`,
+    marketing_owner_heavy: `The pipeline stays the size it is right now, because growing it requires the same hands that are already running delivery and sales. Audience growth stalls. Launches get delayed. Offers don't get the visibility they deserve.${primaryGoal ? ` You said you wanted: "${primaryGoal}". That goal needs marketing to scale past you, and right now it can't.` : ''}`,
+    sales_owner_heavy: `Lost deals from slow follow-up. Calls you couldn't take because you were doing recaps from the last one. Pipeline that goes cold because there's no system to keep it warm.${primaryGoal ? ` You said you wanted: "${primaryGoal}". That goal doesn't move without taking more high-quality calls per week, and the admin around them is what's stopping that today.` : ''}`,
+    retention: `Lost clients you didn't see slipping. Lost LTV. Lost referrals that healthy retained clients would have sent your way. One client saved a year funds the entire system that saves them.${primaryGoal ? ` You said you wanted: "${primaryGoal}". Retention is the cheapest revenue protection in service businesses, and right now you don't have a system for it.` : ''}`,
+    mostly_owner: `Every strategic move sits in the "when I have time" pile. The new offer, the new ICP, the team hire, the partnership, the speaking, the content. None of it happens because you're the one keeping the existing engine running.${primaryGoal ? ` You said you wanted: "${primaryGoal}". The honest answer is that this goal is structurally impossible until owner-load drops below 50 percent.` : ''}`,
+    tool_sprawl: `Mental bandwidth lost to context-switching. Cognitive load spent on tool-hopping instead of work. The kind of cost that doesn't show up on a P&L but shows up as exhaustion by 2pm.${primaryGoal ? ` You said you wanted: "${primaryGoal}". You won't get there with the current setup. You'll burn out first.` : ''}`,
+    generic: `Hard to say without the conversation. Bring it to the audit call and we'll work out together what this workflow is actually costing you.${primaryGoal ? ` You said you wanted: "${primaryGoal}". We'll connect this workflow to that goal directly in the call.` : ''}`
+  };
+
+  // 12-month compound text per pattern (causal chain, references goals)
+  const compoundByPattern = {
+    admin: `Twelve months of this and the math is brutal: ${Math.round(annualHrs)} hours on admin work, ${fmtMoney(annualCost)} of your most expensive time on the cheapest work in the business. That's the floor. The compound is what didn't happen because admin was eating the week. The offer that stayed in the doc. The audience that stayed the same size. The strategic hours that never came back.${primaryGoal ? ` Your goal of "${primaryGoal}" stays where it is, because the work that would move it never made it to the calendar.` : ''}`,
+    delivery_owner_heavy: `Twelve months of running the same delivery cycle the manual way: ${Math.round(annualHrs)} hours, ${fmtMoney(annualCost)}, on rebuild instead of run. The compound: the productised version of your offer stays theoretical. You can't take more clients because every additional client compounds the rebuild. The team you'd hire has nothing to onboard into because nothing is documented.${primaryGoal ? ` Your goal of "${primaryGoal}" stays out of reach for as long as delivery requires you to be present in every step.` : ''}`,
+    marketing_owner_heavy: `Less time for content means slower lead growth, which means fewer prospects in the pipeline, which means harder sales conversations, which means weaker quarter-on-quarter revenue. Twelve months from now if nothing changes: same posting cadence, same audience size, same conversion rate. The compound is what the missing audience growth would have done for the offers you wanted to launch and didn't.${primaryGoal ? ` Your goal of "${primaryGoal}" assumes a pipeline you don't currently have the bandwidth to build.` : ''}`,
+    sales_owner_heavy: `Twelve months of the same admin pattern: ${Math.round(annualHrs)} hours on sales operations that aren't the call itself. ${fmtMoney(annualCost)} of founder time spent on what should be a form, an AI summary, a VA send, and a tracked sequence. The compound is the deals that went cold while you were writing recaps from the last one.${primaryGoal ? ` Your goal of "${primaryGoal}" needs you taking more calls per week, not fewer. Right now the admin is forcing the opposite trend.` : ''}`,
+    retention: `Reactive retention compounds badly. Every churn isn't just a lost month of revenue. It's a lost twelve months of LTV. Plus the referral that client would have sent. Plus the testimonial. Plus the social proof for the next launch. Twelve months of this and you've lost more revenue from preventable churn than any single launch would have brought in.${primaryGoal ? ` Your goal of "${primaryGoal}" depends on a healthy retained base, which is exactly what reactive retention erodes.` : ''}`,
+    mostly_owner: `Twelve months of being the bottleneck and the business stays the size of one founder's bandwidth. ${Math.round(annualHrs)} hours, ${fmtMoney(annualCost)}, every strategic move queued behind operational work that should be running on its own. The compound: the version of the business you wanted to build stays a year behind the version you actually built.${primaryGoal ? ` Your goal of "${primaryGoal}" is structurally blocked until the sort happens.` : ''}`,
+    tool_sprawl: `Twelve months of context-switching tax. Hard to quantify per task. Easy to feel by Friday afternoon. The compound is the founder fatigue that erodes decision quality, slows execution, and turns a healthy week into a series of 80 percent days.${primaryGoal ? ` Your goal of "${primaryGoal}" requires sustained focus that the current stack actively fights against.` : ''}`,
+    generic: `Twelve months of the same workflow producing the same results. Sometimes that's fine. Sometimes that's the slow leak that quietly costs you a year of growth. The honest answer is that this one needs a conversation to figure out which.${primaryGoal ? ` We'll connect it to your goal of "${primaryGoal}" in the call.` : ''}`
+  };
+
+  return {
+    pattern,
+    headline: HERO[pattern].headline,
+    paragraph: HERO[pattern].paragraph,
+    bottleneck: BOTTLENECKS[pattern],
+    solutions: SOLUTIONS_BY_PATTERN[pattern],
+    rec: REC[pattern],
+    whyBox: WHYBOX[pattern],
+    opportunity: opportunity[pattern],
+    compound: compoundByPattern[pattern],
+    metrics: { hrs, cost, annualHrs, annualCost, ownerPct: oP }
+  };
+}
+
+/* =====================================================
+   RENDER WORKFLOW DEEP DIVE (Section 6)
+===================================================== */
+function renderWorkflowDeepDive(idx) {
+  const w = state.workflows[idx];
+  if (!w) return;
+  const payload = buildWorkflowPayload(w);
+  const totalWorkflows = state.workflows.length;
+
+  // Indicator
+  setText('wf-indicator', `Workflow ${idx + 1} of ${totalWorkflows}`);
+
+  // Hero
+  setText('wf-hero-eyebrow', `WORKFLOW: ${(w.name || 'Unnamed').toUpperCase()}`);
+  setText('wf-hero-headline', payload.headline);
+  setText('wf-hero-paragraph', payload.paragraph);
+  const toolsEl = document.getElementById('wf-hero-tools');
+  toolsEl.innerHTML = '';
+  (w.tools || []).forEach(t => {
+    const span = document.createElement('span');
+    span.className = 'pill';
+    span.textContent = t;
+    toolsEl.appendChild(span);
+  });
+
+  // Stage 0: Visual workflow
+  const tlEl = document.getElementById('wf-timeline');
+  tlEl.innerHTML = '';
+  if (w.tasks.length === 0) {
+    tlEl.innerHTML = '<p style="color:var(--muted); font-style:italic;">No tasks added.</p>';
+  } else {
+    w.tasks.forEach((t, i) => {
+      const mins = parseFloat(t.minutes) || 0;
+      const whoClass = (t.who || 'Owner').toLowerCase();
+      const step = document.createElement('div');
+      step.className = 'wf-tl-step';
+      step.innerHTML = `
+        <div class="wf-tl-num">${i + 1}</div>
+        <div>
+          <div class="wf-tl-name">${t.name || 'Unnamed task'}</div>
+          <div class="wf-tl-meta">${mins} min</div>
+        </div>
+        <div class="wf-tl-right">
+          <span class="wf-tl-who ${whoClass}">${t.who || 'Owner'}</span>
+        </div>
+      `;
+      tlEl.appendChild(step);
+    });
+  }
+
+  // Totals
+  const perOcc = workflowMinutes(w);
+  const weekly = workflowWeeklyMinutes(w);
+  const wkCost = workflowWeeklyCost(w);
+  setText('wf-tot-per', fmtHM(perOcc));
+  setText('wf-tot-week', fmtHM(weekly));
+  setText('wf-tot-cost', fmtMoney(wkCost));
+
+  // Stage 1: Bottleneck
+  setText('wf-bottleneck-text', payload.bottleneck);
+  setText('wf-cs-freq', (w.frequency || 'weekly').charAt(0).toUpperCase() + (w.frequency || 'weekly').slice(1));
+  setText('wf-cs-cost', fmtMoney(payload.metrics.cost) + '/week');
+  setText('wf-cs-owner', `${Math.round(payload.metrics.ownerPct)}% owner-driven`);
+
+  // ROI read for this specific workflow
+  let roiKeepMin = 0, roiDelegateMin = 0, roiMixedMin = 0;
+  const mult = FREQ_MULTIPLIER[w.frequency] || 1;
+  (w.tasks || []).forEach(t => {
+    if (t.who !== 'Owner' && t.who !== 'Both') return;
+    const wm = (parseFloat(t.minutes) || 0) * mult * (t.who === 'Both' ? 0.5 : 1);
+    if (wm === 0) return;
+    const cat = classifyTaskROI(t.name);
+    if (cat === 'keep') roiKeepMin += wm;
+    else if (cat === 'delegate') roiDelegateMin += wm;
+    else roiMixedMin += wm;
+  });
+  const roiTotal = roiKeepMin + roiDelegateMin + roiMixedMin;
+  let roiMsg = '';
+  if (roiTotal === 0) {
+    roiMsg = 'No owner-driven tasks in this workflow. Looks well-delegated already.';
+  } else {
+    const keepHrs = (roiKeepMin / 60).toFixed(1);
+    const delegateHrs = (roiDelegateMin / 60).toFixed(1);
+    const keepPct = Math.round((roiKeepMin / roiTotal) * 100);
+    const delegatePct = Math.round((roiDelegateMin / roiTotal) * 100);
+    if (roiDelegateMin > 0 && roiKeepMin > 0) {
+      roiMsg = `Of the ${(roiTotal/60).toFixed(1)} hrs/week owner-driven in this workflow: <strong style="color:#1e7d46;">${keepHrs} hrs (${keepPct}%) is high-ROI work to keep</strong> (live delivery, judgement, the work where you ARE the product). <strong style="color:#c0392b;">${delegateHrs} hrs (${delegatePct}%) is low-ROI work to delegate or automate</strong> (admin, scheduling, posting, recaps). Fixing this workflow means cutting that second number, not the first.`;
+    } else if (roiDelegateMin > 0) {
+      roiMsg = `All ${(roiDelegateMin/60).toFixed(1)} hrs/week of owner work in this workflow looks delegate-able. None of it requires your specific judgement to be done well. <strong style="color:#c0392b;">This is a clean delegation case.</strong>`;
+    } else if (roiKeepMin > 0) {
+      roiMsg = `All ${(roiKeepMin/60).toFixed(1)} hrs/week of owner work here looks high-ROI: live delivery, sales calls, strategic judgement. <strong style="color:#1e7d46;">Keep this owner-driven.</strong> The leak (if any) is somewhere else in your stack.`;
+    } else {
+      roiMsg = `Tasks here are mixed: not clearly high-ROI keep work, not clearly delegate-able. <strong>Worth a closer look in the audit call.</strong>`;
+    }
+  }
+  setHTML('wf-roi-text', roiMsg);
+
+  // Stage 2: Cost of inaction
+  setText('wf-cost-time', `${payload.metrics.hrs.toFixed(1)} hrs/week`);
+  setText('wf-cost-time-desc', `${Math.round(payload.metrics.annualHrs)} hours a year on this one workflow.`);
+  setText('wf-cost-money', `${fmtMoney(payload.metrics.cost)}/week`);
+  setText('wf-cost-money-desc', `${fmtMoney(payload.metrics.annualCost)} a year. At your hourly rate, that's the real cost.`);
+  setText('wf-cost-opp', "What it's costing");
+  setText('wf-cost-opp-desc', payload.opportunity);
+  setText('wf-compound-text', payload.compound);
+
+  // Stage 3: Three solutions table
+  const solWrap = document.getElementById('wf-solutions-wrap');
+  const s = payload.solutions;
+  solWrap.innerHTML = `
+    <table class="solutions-table">
+      <thead>
+        <tr>
+          <th>&nbsp;</th>
+          <th>Option 1: Tighten Manual</th>
+          <th>Option 2: Semi-Automated</th>
+          <th>Option 3: Fully Automated <span class="rec-badge">✓ Rec</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Approach</td><td>${s.manual.approach}</td><td>${s.semiauto.approach}</td><td>${s.fullyauto.approach}</td></tr>
+        <tr><td>Tools needed</td><td>${s.manual.tools}</td><td>${s.semiauto.tools}</td><td>${s.fullyauto.tools}</td></tr>
+        <tr><td>Time to build</td><td>${s.manual.time}</td><td>${s.semiauto.time}</td><td>${s.fullyauto.time}</td></tr>
+        <tr><td>Ongoing effort</td><td>${s.manual.effort}</td><td>${s.semiauto.effort}</td><td>${s.fullyauto.effort}</td></tr>
+        <tr><td>Cost</td><td>${s.manual.cost}</td><td>${s.semiauto.cost}</td><td>${s.fullyauto.cost}</td></tr>
+        <tr><td>Best for</td><td>${s.manual.best}</td><td>${s.semiauto.best}</td><td>${s.fullyauto.best}</td></tr>
+      </tbody>
+    </table>
+  `;
+
+  // Stage 4: Recommendation
+  setText('wf-rec-title', payload.rec.title);
+  setHTML('wf-rec-why1', `<strong>Why over Option 1:</strong> ${payload.rec.why1}`);
+  setHTML('wf-rec-why2', `<strong>Why over Option 2:</strong> ${payload.rec.why2}`);
+  setHTML('wf-rec-whynow', `<strong>Why now:</strong> ${payload.rec.whynow}`);
+  setText('wf-rec-verdict', payload.rec.verdict);
+
+  // Why-box
+  setText('wf-why-text', payload.whyBox);
+
+  // Buttons
+  const nextBtn = document.getElementById('wf-next-btn');
+  if (idx < totalWorkflows - 1) {
+    nextBtn.textContent = 'Next workflow →';
+  } else {
+    nextBtn.textContent = 'Continue to call prep →';
+  }
+}
+
+/* =====================================================
+   NAVIGATION HELPERS
+===================================================== */
+function goToWorkflowDeepDive(idx) {
+  state.currentWorkflowIndex = idx;
+  saveDebounced();
+  renderWorkflowDeepDive(idx);
+  goToSection(6);
+}
+function nextWorkflowOrSec7() {
+  const idx = state.currentWorkflowIndex || 0;
+  const total = state.workflows.length;
+  if (idx < total - 1) {
+    goToWorkflowDeepDive(idx + 1);
+  } else {
+    goToSection(7);
+  }
+}
+function prevWorkflowOrSec5() {
+  const idx = state.currentWorkflowIndex || 0;
+  if (idx > 0) {
+    goToWorkflowDeepDive(idx - 1);
+  } else {
+    goToSection(5);
+  }
+}
+function prevFromSec7() {
+  const total = state.workflows.length;
+  if (total > 0) {
+    goToWorkflowDeepDive(total - 1);
+  } else {
+    goToSection(5);
+  }
+}
+
+/* =====================================================
+   FULL PRINT DOCUMENT BUILDER
+   Constructs a single comprehensive print-only document
+   containing inputs, diagnosis, every workflow deep dive,
+   and call prep. Live wizard is hidden during print.
+===================================================== */
+function escapeHtml(s) {
+  if (s === null || s === undefined) return '';
+  return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
+function buildFullPrintDoc() {
+  const doc = document.getElementById('full-print-doc');
+  if (!doc) return;
+
+  const today = new Date().toLocaleDateString('en-AU', { day:'numeric', month:'long', year:'numeric' });
+  const totalMin = state.workflows.reduce((s, w) => s + workflowWeeklyMinutes(w), 0);
+  const totalHrs = totalMin / 60;
+  const totalCost = state.workflows.reduce((s, w) => s + workflowWeeklyCost(w), 0);
+  const annualHrs = totalHrs * WORKING_WEEKS;
+  const annualCost = totalCost * WORKING_WEEKS;
+
+  const parts = [];
+
+  // ============ COVER ============
+  parts.push(`
+    <div class="pdf-cover">
+      <h1>🔍 LumosPath Audit Report</h1>
+      <div class="pdf-tagline">Lighting your path forward</div>
+      <div class="pdf-meta">${escapeHtml([state.fullName, state.businessName, today].filter(Boolean).join(' · '))}</div>
+    </div>
+  `);
+
+  // ============ SECTION: Your inputs ============
+  parts.push('<div class="pdf-section">');
+  parts.push('<h2>Your details</h2>');
+  if (state.fullName) parts.push(`<div class="pdf-row"><span class="pdf-label">Name:</span>${escapeHtml(state.fullName)}</div>`);
+  if (state.businessName) parts.push(`<div class="pdf-row"><span class="pdf-label">Business:</span>${escapeHtml(state.businessName)}</div>`);
+  if (state.website) parts.push(`<div class="pdf-row"><span class="pdf-label">Website:</span>${escapeHtml(state.website)}</div>`);
+  if (state.social) parts.push(`<div class="pdf-row"><span class="pdf-label">Instagram:</span>${escapeHtml(state.social)}</div>`);
+
+  parts.push('<h3>Baseline numbers</h3>');
+  if (state.rateOwner) parts.push(`<div class="pdf-row"><span class="pdf-label">Owner rate:</span>$${escapeHtml(state.rateOwner)}/hr</div>`);
+  if (state.rateVa) parts.push(`<div class="pdf-row"><span class="pdf-label">VA rate:</span>$${escapeHtml(state.rateVa)}/hr</div>`);
+  parts.push('</div>');
+
+  // ============ SECTION: Goals ============
+  const goals = (state.goals || []).filter(g => g && g.trim());
+  if (goals.length > 0) {
+    parts.push('<div class="pdf-section">');
+    parts.push('<h2>Your goals</h2>');
+    goals.forEach((g, i) => {
+      parts.push(`<div class="pdf-row"><span class="pdf-label">Goal ${i+1}:</span>${escapeHtml(g)}</div>`);
+    });
+    parts.push('</div>');
+  }
+
+  // ============ SECTION: Workflows (raw input) ============
+  if (state.workflows.length > 0) {
+    parts.push('<div class="pdf-section pdf-page-break">');
+    parts.push('<h2>Your workflows</h2>');
+    state.workflows.forEach((w, i) => {
+      const catLabel = (CATEGORIES.find(c => c.value === w.category) || {}).label || '—';
+      parts.push(`<h3>Workflow ${i+1}: ${escapeHtml(w.name || 'Unnamed')}</h3>`);
+      parts.push(`<div class="pdf-row"><span class="pdf-label">Category:</span>${escapeHtml(catLabel)} · <span class="pdf-label">Frequency:</span>${escapeHtml(w.frequency || 'weekly')}</div>`);
+      if (w.tools && w.tools.length) parts.push(`<div class="pdf-row"><span class="pdf-label">Tools:</span>${escapeHtml(w.tools.join(', '))}</div>`);
+      if (w.tasks && w.tasks.length) {
+        parts.push('<table><thead><tr><th>#</th><th>Task</th><th>Who</th><th>Mins</th></tr></thead><tbody>');
+        w.tasks.forEach((t, ti) => {
+          parts.push(`<tr><td>${ti+1}</td><td>${escapeHtml(t.name || '')}</td><td>${escapeHtml(t.who || 'Owner')}</td><td>${escapeHtml(t.minutes || '')}</td></tr>`);
+        });
+        parts.push('</tbody></table>');
+      }
+    });
+    parts.push('</div>');
+  }
+
+  // ============ SECTION: Diagnostic answers ============
+  const diagnosticPairs = [
+    ['q1', 'Where clients keep getting stuck'],
+    ['q2', 'Most popular pain in the ass to deliver'],
+    ['q3', 'One thing to fix tomorrow'],
+    ['q4', 'What you should be doing more of'],
+    ['q5', 'What you want to explore']
+  ];
+  const hasAnyDiag = diagnosticPairs.some(([k]) => state[k] && state[k].trim());
+  if (hasAnyDiag) {
+    parts.push('<div class="pdf-section">');
+    parts.push('<h2>Diagnostic answers</h2>');
+    diagnosticPairs.forEach(([k, label]) => {
+      if (state[k] && state[k].trim()) {
+        parts.push(`<h3>${escapeHtml(label)}</h3><p>${escapeHtml(state[k])}</p>`);
+      }
+    });
+    parts.push('</div>');
+  }
+
+  // ============ SECTION: Overall diagnosis ============
+  parts.push('<div class="pdf-page-break">');
+  parts.push('<div class="wf-hero">');
+  parts.push('<div class="wf-hero-eyebrow">YOUR AUDIT REPORT</div>');
+  parts.push("<h2 style=\"color:#fff;margin:0 0 14px 0;font-family:'Fredoka',sans-serif;font-size:1.6rem;\">Here's what your time is actually costing you.</h2>");
+  parts.push('<p>Below is your full diagnostic. The leakage map first, every task you mapped with a verdict and a specific recommendation. Then the cost of NOT fixing those leaks across a working year. Then a quick read on owner vs VA work, then the workflow ranking. The fix plan, workflow by workflow, follows after.</p>');
+  parts.push('</div>');
+
+  const wfsForMath = state.workflows.filter(w => workflowWeeklyMinutes(w) > 0);
+
+  // ===== Stage 01: Leakage map (lead with this) =====
+  if (wfsForMath.length > 0) {
+    parts.push('<h2>Stage 01 · The leakage map</h2>');
+    parts.push('<p>For every task in every workflow, here is the verdict: KEEP, DELEGATE, REVIEW, or DELETE. Each task gets a specific recommendation about which tool to use and how much time to shave. The summary at the bottom of each workflow tells you what is worth fixing first.</p>');
+    const verdictColors = { keep: '#1e7d46', amplify: '#6340c0', delegate: '#2a5bd4', optimize: '#0d7e8a', review: '#8c5a1e', delete: '#c0392b' };
+    wfsForMath.forEach(w => {
+      const tasks = (w.tasks || []).filter(t => (parseFloat(t.minutes) || 0) > 0);
+      parts.push('<div class="stage-card" style="margin-bottom:14px;">');
+      parts.push(`<h4 style="margin:0 0 8px 0;">${escapeHtml(w.name || 'Unnamed')} <span style="font-weight:400;color:#6c6f85;font-size:0.85rem;">· ${(workflowWeeklyMinutes(w)/60).toFixed(1)} hrs/week · ${fmtMoney(workflowWeeklyCost(w))}/week</span></h4>`);
+      parts.push('<table style="margin-top:6px;"><thead><tr><th>Task</th><th style="text-align:right;">Mins</th><th>Who</th><th>Verdict</th></tr></thead><tbody>');
+      tasks.forEach(t => {
+        const tip = generateTaskTip(t, w.tools);
+        const color = verdictColors[tip.verdict] || '#8c5a1e';
+        parts.push(`<tr><td>${escapeHtml(t.name || 'Unnamed task')}</td><td style="text-align:right;">${escapeHtml(t.minutes || 0)}</td><td>${escapeHtml(t.who || 'Owner')}</td><td><strong style="color:${color};">${tip.verdict.toUpperCase()}</strong></td></tr>`);
+        if (tip.tip) {
+          parts.push(`<tr><td colspan="4" style="padding:6px 10px 10px 18px;color:#6c6f85;font-size:0.85rem;font-style:italic;background:#fbfaf7;">💡 ${tip.tip}</td></tr>`);
+        }
+      });
+      parts.push('</tbody></table>');
+      parts.push(`<p style="background:#F6EFE9;border-left:3px solid #E0C285;padding:11px 14px;border-radius:8px;margin-top:10px;">${generateWorkflowSummary(w)}</p>`);
+      parts.push('</div>');
+    });
+  }
+
+  // ===== Stage 02: Cost of NOT fixing the leak (uses leak metrics, not total) =====
+  const leak = calculateLeakMetrics();
+  parts.push('<h2>Stage 02 · The cost of NOT fixing the leak</h2>');
+  parts.push('<p>This is the cost of the work flagged above as DELEGATE or DELETE. The KEEP work (your live calls, sales conversations, founder content) is excluded because it should not go anywhere. Only the leak-able hours are counted.</p>');
+  parts.push('<div class="cost-grid">');
+  parts.push(`<div class="cost-box"><div class="cost-label">Leak-able hours</div><div class="cost-value">${leak.leakHrs > 0 ? leak.leakHrs.toFixed(1) + ' hrs/week' : '0 hrs/week'}</div><div class="cost-desc">${leak.leakHrs > 0 ? 'Hours flagged as DELEGATE or DELETE in the leakage map.' : 'No leak-able work flagged yet.'}</div></div>`);
+  parts.push(`<div class="cost-box gold"><div class="cost-label">Weekly cost</div><div class="cost-value">${fmtMoney(leak.weeklyCost)}/week</div><div class="cost-desc">Owner hours costed at your rate. VA hours costed at the VA rate.</div></div>`);
+  parts.push(`<div class="cost-box red"><div class="cost-label">Annual cost</div><div class="cost-value">${fmtMoney(leak.annualCost)}/year</div><div class="cost-desc">Across ${WORKING_WEEKS} working weeks.</div></div>`);
+  parts.push('</div>');
+
+  if (leak.leakHrs > 0) {
+    parts.push('<div class="compound-box">');
+    parts.push('<div class="label">The compound effect over 12 months</div>');
+    parts.push(`<p>Twelve months from now, if nothing changes: ${leak.leakHrs.toFixed(1)} leak-able hours every week, ${fmtMoney(leak.weeklyCost)}/week, ${fmtMoney(leak.annualCost)} on the year. Pure margin you could redirect into the work that grows the business. The compound is not just the dollars. It is the offers, the audience, and the time you would have got back.</p>`);
+    parts.push('</div>');
+  }
+
+  // ===== Stage 03: Owner ROI insight =====
+  let pdOwnerKeep = 0, pdOwnerDelegate = 0, pdOwnerMixed = 0, pdTotalOwner = 0;
+  state.workflows.forEach(w => {
+    const mult = FREQ_MULTIPLIER[w.frequency] || 1;
+    (w.tasks || []).forEach(t => {
+      const mins = (parseFloat(t.minutes) || 0) * mult;
+      let share = 0;
+      if (t.who === 'Owner') share = mins;
+      else if (t.who === 'Both') share = mins / 2;
+      if (share === 0) return;
+      pdTotalOwner += share;
+      const cat = classifyTaskROI(t.name);
+      if (cat === 'keep') pdOwnerKeep += share;
+      else if (cat === 'delegate') pdOwnerDelegate += share;
+      else pdOwnerMixed += share;
+    });
+  });
+  if (pdTotalOwner > 0) {
+    const keepPct = (pdOwnerKeep / pdTotalOwner * 100).toFixed(0);
+    const delegatePct = (pdOwnerDelegate / pdTotalOwner * 100).toFixed(0);
+    const mixedPct = (pdOwnerMixed / pdTotalOwner * 100).toFixed(0);
+    parts.push('<h2>Stage 03 · Owner load, read strategically</h2>');
+    parts.push('<div class="stage-card" style="border-left:5px solid #1B1F3B;">');
+    parts.push('<p><strong>Not all owner work is bad. The question is which parts.</strong></p>');
+    parts.push(`<p>Of your owner-driven hours, roughly <strong>${keepPct}%</strong> (${(pdOwnerKeep/60).toFixed(1)} hrs/week) is high-ROI work you should keep doing yourself: live coaching, sales, strategic content, the work where your judgement is the product. Around <strong>${delegatePct}%</strong> (${(pdOwnerDelegate/60).toFixed(1)} hrs/week) is low-ROI work that should be delegated or automated. ${mixedPct > 5 ? 'The remaining <strong>' + mixedPct + '%</strong> needs a closer look.' : ''}</p>`);
+    parts.push(`<p><em>The leak is not your owner load itself. It is the ${delegatePct}% draining your strategic hours.</em></p>`);
+    parts.push('</div>');
+  }
+
+  // ===== Stage 04: Workflow ranking =====
+  if (state.workflows.length > 0) {
+    parts.push('<h2>Stage 04 · Workflow ranking</h2>');
+    parts.push('<p>Highest cost first. The top one is where to start.</p>');
+    parts.push('<table><thead><tr><th>Workflow</th><th>Category</th><th>Hrs / week</th><th>$ / week</th></tr></thead><tbody>');
+    const ranked = state.workflows
+      .map(w => ({
+        name: w.name || 'Unnamed',
+        cat: (CATEGORIES.find(c => c.value === w.category) || {}).label || '—',
+        hrs: workflowWeeklyMinutes(w) / 60,
+        cost: workflowWeeklyCost(w)
+      }))
+      .sort((a,b) => b.cost - a.cost);
+    ranked.forEach(r => {
+      parts.push(`<tr><td>${escapeHtml(r.name)}</td><td>${escapeHtml(r.cat)}</td><td>${r.hrs.toFixed(1)}</td><td>${fmtMoney(r.cost)}</td></tr>`);
+    });
+    parts.push('</tbody></table>');
+  }
+  parts.push('</div>'); // end overall diagnosis page
+
+  // ============ SECTION: Each workflow deep dive ============
+  state.workflows.forEach((w, idx) => {
+    const payload = buildWorkflowPayload(w);
+    const taskRows = (w.tasks || []).map((t, i) => `
+      <div class="wf-tl-step">
+        <div class="wf-tl-num">${i + 1}</div>
+        <div>
+          <div class="wf-tl-name">${escapeHtml(t.name || 'Unnamed task')}</div>
+          <div class="wf-tl-meta">${escapeHtml(t.minutes || 0)} min</div>
+        </div>
+        <div class="wf-tl-right">
+          <span class="wf-tl-who ${(t.who || 'Owner').toLowerCase()}">${escapeHtml(t.who || 'Owner')}</span>
+        </div>
+      </div>
+    `).join('');
+    const toolPills = (w.tools || []).map(t => `<span class="pill">${escapeHtml(t)}</span>`).join('');
+    const s = payload.solutions;
+
+    parts.push('<div class="pdf-page-break">');
+    parts.push(`<div class="wf-indicator">Workflow ${idx + 1} of ${state.workflows.length}</div>`);
+    parts.push('<div class="wf-hero">');
+    parts.push(`<div class="wf-hero-eyebrow">WORKFLOW: ${escapeHtml((w.name || 'Unnamed').toUpperCase())}</div>`);
+    parts.push(`<h2 style="color:#fff;margin:0 0 14px 0;font-family:'Fredoka',sans-serif;font-size:1.5rem;">${escapeHtml(payload.headline)}</h2>`);
+    parts.push(`<p>${escapeHtml(payload.paragraph)}</p>`);
+    parts.push(`<div class="tool-pills">${toolPills}</div>`);
+    parts.push('</div>');
+
+    parts.push('<h2>Stage 00 · Your current workflow</h2>');
+    parts.push(`<div class="wf-timeline">${taskRows || '<p style="color:var(--muted);">No tasks added.</p>'}</div>`);
+
+    parts.push('<h2>Stage 01 · The bottleneck</h2>');
+    parts.push('<div class="stage-card">');
+    parts.push(`<p>${escapeHtml(payload.bottleneck)}</p>`);
+    parts.push('<div class="callout-strip">');
+    parts.push(`<div><div class="label">Frequency</div><div class="value">${escapeHtml(w.frequency || 'weekly')}</div></div>`);
+    parts.push(`<div><div class="label">Weekly cost</div><div class="value">${fmtMoney(payload.metrics.cost)}/week</div></div>`);
+    parts.push(`<div><div class="label">Owner load</div><div class="value">${Math.round(payload.metrics.ownerPct)}% owner-driven</div></div>`);
+    parts.push('</div></div>');
+
+    // ROI read for this workflow
+    let roiKeepMin2 = 0, roiDelegateMin2 = 0, roiMixedMin2 = 0;
+    const mult2 = FREQ_MULTIPLIER[w.frequency] || 1;
+    (w.tasks || []).forEach(t => {
+      if (t.who !== 'Owner' && t.who !== 'Both') return;
+      const wm = (parseFloat(t.minutes) || 0) * mult2 * (t.who === 'Both' ? 0.5 : 1);
+      if (wm === 0) return;
+      const cat = classifyTaskROI(t.name);
+      if (cat === 'keep') roiKeepMin2 += wm;
+      else if (cat === 'delegate') roiDelegateMin2 += wm;
+      else roiMixedMin2 += wm;
+    });
+    const roiTotal2 = roiKeepMin2 + roiDelegateMin2 + roiMixedMin2;
+    if (roiTotal2 > 0) {
+      const keepHrs2 = (roiKeepMin2 / 60).toFixed(1);
+      const delegateHrs2 = (roiDelegateMin2 / 60).toFixed(1);
+      const keepPct2 = Math.round((roiKeepMin2 / roiTotal2) * 100);
+      const delegatePct2 = Math.round((roiDelegateMin2 / roiTotal2) * 100);
+      let roiMsg2 = '';
+      if (roiDelegateMin2 > 0 && roiKeepMin2 > 0) {
+        roiMsg2 = `Of the ${(roiTotal2/60).toFixed(1)} hrs/week owner-driven in this workflow: <strong style="color:#1e7d46;">${keepHrs2} hrs (${keepPct2}%) is high-ROI work to keep</strong>. <strong style="color:#c0392b;">${delegateHrs2} hrs (${delegatePct2}%) is low-ROI work to delegate or automate</strong>. Fixing this workflow means cutting the second number, not the first.`;
+      } else if (roiDelegateMin2 > 0) {
+        roiMsg2 = `All ${(roiDelegateMin2/60).toFixed(1)} hrs/week of owner work here looks delegate-able. <strong style="color:#c0392b;">This is a clean delegation case.</strong>`;
+      } else if (roiKeepMin2 > 0) {
+        roiMsg2 = `All ${(roiKeepMin2/60).toFixed(1)} hrs/week of owner work here looks high-ROI. <strong style="color:#1e7d46;">Keep this owner-driven.</strong>`;
+      } else {
+        roiMsg2 = `Owner tasks here are mixed. Worth a closer look in the audit call.`;
+      }
+      parts.push('<div class="stage-card" style="border-left-color:#1B1F3B;margin-top:10px;">');
+      parts.push('<div style="font-size:0.7rem;text-transform:uppercase;letter-spacing:0.1em;color:#E0C285;font-weight:700;margin-bottom:6px;">ROI READ ON THIS WORKFLOW</div>');
+      parts.push(`<p>${roiMsg2}</p>`);
+      parts.push('</div>');
+    }
+
+    parts.push('<h2>Stage 02 · The cost of inaction</h2>');
+    parts.push('<div class="cost-grid">');
+    parts.push(`<div class="cost-box"><div class="cost-label">Time</div><div class="cost-value">${payload.metrics.hrs.toFixed(1)} hrs/week</div><div class="cost-desc">${Math.round(payload.metrics.annualHrs)} hours a year on this one workflow.</div></div>`);
+    parts.push(`<div class="cost-box gold"><div class="cost-label">Financial</div><div class="cost-value">${fmtMoney(payload.metrics.cost)}/week</div><div class="cost-desc">${fmtMoney(payload.metrics.annualCost)} a year at your hourly rate.</div></div>`);
+    parts.push(`<div class="cost-box red"><div class="cost-label">Opportunity</div><div class="cost-value">What it's costing</div><div class="cost-desc">${escapeHtml(payload.opportunity)}</div></div>`);
+    parts.push('</div>');
+    parts.push(`<div class="compound-box"><div class="label">12 months from now if nothing changes</div><p>${escapeHtml(payload.compound)}</p></div>`);
+
+    parts.push('<h2>Stage 03 · Three solutions</h2>');
+    parts.push('<table>');
+    parts.push('<thead><tr><th></th><th>Option 1: Tighten Manual</th><th>Option 2: Semi-Automated</th><th>Option 3: Fully Automated ✓</th></tr></thead>');
+    parts.push('<tbody>');
+    parts.push(`<tr><td><strong>Approach</strong></td><td>${escapeHtml(s.manual.approach)}</td><td>${escapeHtml(s.semiauto.approach)}</td><td>${escapeHtml(s.fullyauto.approach)}</td></tr>`);
+    parts.push(`<tr><td><strong>Tools needed</strong></td><td>${escapeHtml(s.manual.tools)}</td><td>${escapeHtml(s.semiauto.tools)}</td><td>${escapeHtml(s.fullyauto.tools)}</td></tr>`);
+    parts.push(`<tr><td><strong>Time to build</strong></td><td>${escapeHtml(s.manual.time)}</td><td>${escapeHtml(s.semiauto.time)}</td><td>${escapeHtml(s.fullyauto.time)}</td></tr>`);
+    parts.push(`<tr><td><strong>Ongoing effort</strong></td><td>${escapeHtml(s.manual.effort)}</td><td>${escapeHtml(s.semiauto.effort)}</td><td>${escapeHtml(s.fullyauto.effort)}</td></tr>`);
+    parts.push(`<tr><td><strong>Cost</strong></td><td>${escapeHtml(s.manual.cost)}</td><td>${escapeHtml(s.semiauto.cost)}</td><td>${escapeHtml(s.fullyauto.cost)}</td></tr>`);
+    parts.push(`<tr><td><strong>Best for</strong></td><td>${escapeHtml(s.manual.best)}</td><td>${escapeHtml(s.semiauto.best)}</td><td>${escapeHtml(s.fullyauto.best)}</td></tr>`);
+    parts.push('</tbody></table>');
+
+    parts.push('<h2>Stage 04 · The recommendation</h2>');
+    parts.push('<div class="rec-card-v2">');
+    parts.push('<div class="rec-eyebrow">RECOMMENDED PATH</div>');
+    parts.push(`<h3 style="color:#fff;">${escapeHtml(payload.rec.title)}</h3>`);
+    parts.push(`<p><strong>Why over Option 1:</strong> ${escapeHtml(payload.rec.why1)}</p>`);
+    parts.push(`<p><strong>Why over Option 2:</strong> ${escapeHtml(payload.rec.why2)}</p>`);
+    parts.push(`<p><strong>Why now:</strong> ${escapeHtml(payload.rec.whynow)}</p>`);
+    parts.push(`<div class="verdict-pill">${escapeHtml(payload.rec.verdict)}</div>`);
+    parts.push('</div>');
+
+    parts.push('<div class="why-box">');
+    parts.push('<div class="why-label">Why box · Plain English analogy</div>');
+    parts.push(`<p>${escapeHtml(payload.whyBox)}</p>`);
+    parts.push('</div>');
+
+    parts.push('<div class="callout"><strong>📞 We can go through the step-by-step build in your audit call.</strong> The full workflow map, the tools, the build requirements.</div>');
+    parts.push('</div>'); // end workflow page
+  });
+
+  // ============ SECTION: Call prep ============
+  parts.push('<div class="pdf-page-break">');
+  parts.push('<div class="wf-hero">');
+  parts.push('<div class="wf-hero-eyebrow">YOUR CALL PREP</div>');
+  parts.push("<h2 style=\"color:#fff;margin:0 0 14px 0;font-family:'Fredoka',sans-serif;font-size:1.6rem;\">Bring this to your audit call.</h2>");
+  parts.push('<p>The conversation goes deeper than what we could auto-generate. Below: how the data connects to your goals, what to amplify, and the questions to bring.</p>');
+  parts.push('</div>');
+
+  // Goal eval
+  parts.push('<h2>How this affects your goals</h2>');
+  if (goals.length === 0) {
+    parts.push('<p style="color:var(--muted); font-style:italic;">No goals added.</p>');
+  } else {
+    const goalEvalText = buildGoalEvalForPrint();
+    parts.push(goalEvalText);
+  }
+
+  // Things to amplify
+  parts.push('<h2>Things to amplify</h2>');
+  parts.push(`<h4>What you should be doing more of:</h4><p>${state.q4 && state.q4.trim() ? escapeHtml(state.q4) : '<em>No answer</em>'}</p>`);
+  parts.push(`<h4>What you want to explore:</h4><p>${state.q5 && state.q5.trim() ? escapeHtml(state.q5) : '<em>No answer</em>'}</p>`);
+
+  // Things to bring
+  parts.push('<h2>Things to bring to your audit call</h2>');
+  parts.push(`<h4>Where clients keep getting stuck:</h4><p>${state.q1 && state.q1.trim() ? escapeHtml(state.q1) : '<em>No answer</em>'}</p>`);
+  parts.push(`<h4>Most popular pain in the ass to deliver:</h4><p>${state.q2 && state.q2.trim() ? escapeHtml(state.q2) : '<em>No answer</em>'}</p>`);
+  parts.push(`<h4>One thing to fix tomorrow:</h4><p>${state.q3 && state.q3.trim() ? escapeHtml(state.q3) : '<em>No answer</em>'}</p>`);
+
+  // Pre-call note
+  parts.push('<div class="pre-call"><strong>What happens next:</strong> bring this report to your audit call. We will not spend the call re-explaining what you have already told me. We will go deeper on the leak and agree on ONE thing to ship in 30 days.</div>');
+
+  // Glossary
+  parts.push('<h2>Plain English glossary</h2>');
+  parts.push('<div class="glossary-card">');
+  parts.push('<div class="term"><strong>Bottleneck:</strong> The single step in a workflow where everything backs up. Fix this and the rest moves.</div>');
+  parts.push('<div class="term"><strong>Owner load:</strong> How much of the work needs YOU specifically. High Owner load means hard to scale.</div>');
+  parts.push('<div class="term"><strong>Flywheel:</strong> A system where each fix makes the next one cheaper. The opposite of a hamster wheel.</div>');
+  parts.push('<div class="term"><strong>SOP:</strong> Standard Operating Procedure. A document or video that lets someone else do a task without you re-explaining.</div>');
+  parts.push('<div class="term"><strong>VA:</strong> Virtual Assistant. A part-time contractor who handles tasks below your hourly rate.</div>');
+  parts.push('<div class="term"><strong>AI assistant:</strong> ChatGPT, Claude. Drafts in your voice once trained on examples. Like a junior copywriter who works in seconds.</div>');
+  parts.push('<div class="term"><strong>Automation:</strong> A workflow that runs without you clicking buttons. Trigger fires, steps run, output appears.</div>');
+  parts.push('<div class="term"><strong>Productisation:</strong> Turning custom 1:1 work into a repeatable package. Same core delivery, light tweaks per client.</div>');
+  parts.push('</div>');
+  parts.push('</div>'); // end call prep page
+
+  doc.innerHTML = parts.join('\n');
+}
+
+// Helper for goal eval inside print doc (mirrors renderGoalEval logic but as HTML string)
+function buildGoalEvalForPrint() {
+  const goals = (state.goals || []).filter(g => g && g.trim());
+  if (goals.length === 0) return '';
+
+  const totalMin = state.workflows.reduce((s, w) => s + workflowWeeklyMinutes(w), 0);
+  const totalHrs = totalMin / 60;
+  const totalCost = state.workflows.reduce((s, w) => s + workflowWeeklyCost(w), 0);
+
+  const catMin = {};
+  state.workflows.forEach(w => {
+    if (!w.category) return;
+    catMin[w.category] = (catMin[w.category] || 0) + workflowWeeklyMinutes(w);
+  });
+
+  let ownerOverallMin = 0, totalAllMin = 0;
+  state.workflows.forEach(w => {
+    const mult = FREQ_MULTIPLIER[w.frequency] || 1;
+    w.tasks.forEach(t => {
+      const tm = (parseFloat(t.minutes) || 0) * mult;
+      totalAllMin += tm;
+      if (t.who === 'Owner') ownerOverallMin += tm;
+      else if (t.who === 'Both') ownerOverallMin += tm * 0.5;
+    });
+  });
+  const ownerPctOverall = totalAllMin > 0 ? (ownerOverallMin / totalAllMin) * 100 : 0;
+
+  const scored = state.workflows
+    .filter(w => workflowWeeklyMinutes(w) > 0)
+    .map(w => ({ name: w.name || 'Unnamed', hrs: workflowWeeklyMinutes(w)/60, cost: workflowWeeklyCost(w), ownerPct: ownerPct(w) }))
+    .sort((a,b) => (b.ownerPct * b.hrs) - (a.ownerPct * a.hrs));
+  const topLeak = scored[0] || null;
+
+  const out = [];
+  goals.forEach((g, i) => {
+    const lower = g.toLowerCase();
+    const insights = [];
+
+    if (/\b(hour|time|week|free|back|less|lifestyle|balance|weekend|family)\b/.test(lower)) {
+      if (topLeak) {
+        insights.push(`The workflows above eat ${totalHrs.toFixed(1)} hrs/week. Fixing "${topLeak.name}" alone gets back ${topLeak.hrs.toFixed(1)} hrs of that.`);
+      }
+    }
+    if (/\b(revenue|money|income|month|profit|grand|k\b|\$|earn)\b/.test(lower)) {
+      insights.push(`The work above costs ${fmtMoney(totalCost)}/week, ${fmtMoney(totalCost * WORKING_WEEKS)}/year. That's pure margin you could redirect toward this goal once it's reclaimed.`);
+    }
+    if (/\b(sales|sell|convert|close|client|customer)\b/.test(lower)) {
+      const salesMin = catMin['sales'] || 0;
+      const salesPct = totalMin > 0 ? (salesMin / totalMin) * 100 : 0;
+      if (salesPct < 15) insights.push(`Currently ${salesPct.toFixed(0)}% of your time is in Sales. Hard to grow revenue if there's no time to sell.`);
+    }
+    if (/\b(scale|grow|10x|expand|hire|team|solo)\b/.test(lower)) {
+      if (ownerPctOverall >= 50) insights.push(`${ownerPctOverall.toFixed(0)}% of work is owner-driven. Scaling solo is brutal. Delegation or automation is the path forward.`);
+      else insights.push(`${ownerPctOverall.toFixed(0)}% owner load is a workable foundation. Look for what's still NOT delegated to find the next win.`);
+    }
+    if (/\b(lead|audience|content|social|reach|follower|grow|brand)\b/.test(lower)) {
+      const mktMin = catMin['marketing'] || 0;
+      const mktPct = totalMin > 0 ? (mktMin / totalMin) * 100 : 0;
+      if (mktPct < 15) insights.push(`Currently ${mktPct.toFixed(0)}% of your time is in Marketing/Lead Gen. Need more space here to make this goal real.`);
+    }
+    if (/\b(retention|churn|renewal|upsell|repeat)\b/.test(lower)) {
+      const retMin = catMin['retention'] || 0;
+      const retPct = totalMin > 0 ? (retMin / totalMin) * 100 : 0;
+      if (retPct < 10) insights.push(`${retPct.toFixed(0)}% of your time is on Retention. Worth checking if that's enough to move this needle.`);
+    }
+    if (/\b(ai|automat|tool|system|platform)\b/.test(lower)) {
+      insights.push(`${topLeak ? `"${topLeak.name}" is the obvious automation candidate. ${topLeak.hrs.toFixed(1)} hrs/week, ${Math.round(topLeak.ownerPct)}% owner-driven.` : 'Once workflows are mapped, we can flag what AI can lift.'}`);
+    }
+    if (insights.length === 0) {
+      insights.push(topLeak
+        ? `Top leak: "${topLeak.name}" at ${fmtMoney(topLeak.cost)}/week. Worth checking how this goal connects in our call.`
+        : 'Add workflows in Section 3 so we can score this goal against real data.');
+    }
+
+    out.push(`<div class="goal-eval-card"><div class="goal-eval-num">Goal ${i+1}</div><div class="goal-eval-text">"${escapeHtml(g)}"</div><ul class="goal-eval-insights">`);
+    insights.forEach(text => out.push(`<li>${escapeHtml(text)}</li>`));
+    out.push('</ul></div>');
+  });
+
+  return out.join('\n');
+}
+
+function downloadPDF() {
+  buildFullPrintDoc();
+  setTimeout(() => window.print(), 150);
+}
+
+function renderGoalEval() {
+  const wrap = document.getElementById('goal-eval-list');
+  wrap.innerHTML = '';
+  const goals = state.goals.filter(g => g && g.trim());
+  if (goals.length === 0) {
+    wrap.innerHTML = '<p style="color:var(--muted); font-style:italic;">No goals added. Add them in Section 2 to see how this affects you.</p>';
+    return;
+  }
+
+  const totalMin = state.workflows.reduce((s, w) => s + workflowWeeklyMinutes(w), 0);
+  const totalHrs = totalMin / 60;
+  const totalCost = state.workflows.reduce((s, w) => s + workflowWeeklyCost(w), 0);
+
+  // category time
+  const catMin = {};
+  state.workflows.forEach(w => {
+    if (!w.category) return;
+    catMin[w.category] = (catMin[w.category] || 0) + workflowWeeklyMinutes(w);
+  });
+
+  // owner pct
+  let ownerOverallMin = 0, totalAllMin = 0;
+  state.workflows.forEach(w => {
+    const mult = FREQ_MULTIPLIER[w.frequency] || 1;
+    w.tasks.forEach(t => {
+      const tm = (parseFloat(t.minutes) || 0) * mult;
+      totalAllMin += tm;
+      if (t.who === 'Owner') ownerOverallMin += tm;
+      else if (t.who === 'Both') ownerOverallMin += tm * 0.5;
+    });
+  });
+  const ownerPctOverall = totalAllMin > 0 ? (ownerOverallMin / totalAllMin) * 100 : 0;
+
+  // top leak
+  const scored = state.workflows
+    .filter(w => workflowWeeklyMinutes(w) > 0)
+    .map(w => ({
+      name: w.name || 'Unnamed workflow',
+      hrs: workflowWeeklyMinutes(w) / 60,
+      cost: workflowWeeklyCost(w),
+      ownerPct: ownerPct(w)
+    }));
+  scored.sort((a,b) => (b.ownerPct * b.hrs) - (a.ownerPct * a.hrs));
+  const topLeak = scored[0] || null;
+
+  goals.forEach((g, i) => {
+    const lower = g.toLowerCase();
+    const insights = [];
+
+    // Time / lifestyle
+    if (/\b(hour|time|week|free|back|less|lifestyle|balance|weekend|family)\b/.test(lower)) {
+      if (topLeak) {
+        insights.push(`The workflows above eat ${totalHrs.toFixed(1)} hrs/week. Fixing "${topLeak.name}" alone gets back ${topLeak.hrs.toFixed(1)} hrs of that.`);
+      }
+    }
+
+    // Money / revenue
+    if (/\b(revenue|money|income|month|profit|grand|k\b|\$|earn)\b/.test(lower)) {
+      insights.push(`The work above costs ${fmtMoney(totalCost)}/week, ${fmtMoney(totalCost * WORKING_WEEKS)}/year. That's pure margin you could redirect toward this goal once it's reclaimed.`);
+    }
+
+    // Sales
+    if (/\b(sales|sell|convert|close|client|customer)\b/.test(lower)) {
+      const salesMin = catMin['sales'] || 0;
+      const salesPct = totalMin > 0 ? (salesMin / totalMin) * 100 : 0;
+      if (salesPct < 15) {
+        insights.push(`Currently ${salesPct.toFixed(0)}% of your time is in Sales. Hard to grow revenue if there's no time to sell.`);
+      }
+    }
+
+    // Scale / hire / leverage
+    if (/\b(scale|grow|10x|expand|hire|team|solo)\b/.test(lower)) {
+      if (ownerPctOverall >= 50) {
+        insights.push(`${ownerPctOverall.toFixed(0)}% of work is owner-driven. Scaling solo is brutal. Delegation or automation is the path forward.`);
+      } else {
+        insights.push(`${ownerPctOverall.toFixed(0)}% owner load is a workable foundation. Look for what's still NOT delegated to find the next win.`);
+      }
+    }
+
+    // Lead / marketing / audience
+    if (/\b(lead|audience|content|social|reach|follower|grow|brand)\b/.test(lower)) {
+      const mktMin = catMin['marketing'] || 0;
+      const mktPct = totalMin > 0 ? (mktMin / totalMin) * 100 : 0;
+      if (mktPct < 15) {
+        insights.push(`Currently ${mktPct.toFixed(0)}% of your time is in Marketing/Lead Gen. Need more space here to make this goal real.`);
+      }
+    }
+
+    // Retention
+    if (/\b(retention|churn|renewal|upsell|repeat)\b/.test(lower)) {
+      const retMin = catMin['retention'] || 0;
+      const retPct = totalMin > 0 ? (retMin / totalMin) * 100 : 0;
+      if (retPct < 10) {
+        insights.push(`${retPct.toFixed(0)}% of your time is on Retention. Worth checking if that's enough to move this needle.`);
+      }
+    }
+
+    // AI / automate
+    if (/\b(ai|automat|tool|system|platform)\b/.test(lower)) {
+      insights.push(`${topLeak ? `"${topLeak.name}" is the obvious automation candidate. ${topLeak.hrs.toFixed(1)} hrs/week, ${Math.round(topLeak.ownerPct)}% owner-driven.` : 'Once workflows are mapped, we can flag what AI can lift.'}`);
+    }
+
+    // Default
+    if (insights.length === 0) {
+      insights.push(topLeak
+        ? `Top leak: "${topLeak.name}" at ${fmtMoney(topLeak.cost)}/week. Worth checking how this goal connects in our call.`
+        : 'Add workflows in Section 3 so we can score this goal against real data.');
+    }
+
+    // Build the block
+    const block = document.createElement('div');
+    block.className = 'goal-eval-card';
+    block.innerHTML = `
+      <div class="goal-eval-num">Goal ${i+1}</div>
+      <div class="goal-eval-text">"${g}"</div>
+      <ul class="goal-eval-insights"></ul>
+    `;
+    const ul = block.querySelector('.goal-eval-insights');
+    insights.forEach(text => {
+      const li = document.createElement('li');
+      li.textContent = text;
+      ul.appendChild(li);
+    });
+    wrap.appendChild(block);
+  });
+}
+
+// Email CTA functions removed in v1.2.0. Email sending is now plain text instructions in Section 7.
+
+/* =====================================================
+   RESET
+===================================================== */
+function resetAll() {
+  const ok = confirm('This will clear all your answers. Are you sure?');
+  if (!ok) return;
+  localStorage.removeItem(STORAGE_KEY);
+  state = {
+    currentSection: 1,
+    fullName: '', businessName: '', website: '', social: '',
+    currentWorkflowIndex: 0,
+    rateOwner: '', rateVa: '',
+    goals: ['','',''], goalsVisible: 1,
+    workflows: [],
+    q1: '', q2: '', q3: '', q4: '', q5: ''
+  };
+  // reset visible state
+  ['full-name','business-name','website','social','rate-owner','rate-va','goal-1','goal-2','goal-3','q1','q2','q3','q4','q5'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+  document.getElementById('goal-row-2').classList.add('hidden');
+  document.getElementById('goal-row-3').classList.add('hidden');
+  updateAddGoalBtn();
+  renderWorkflows();
+  goToSection(1);
+}
+
+/* =====================================================
+   INIT
+===================================================== */
+function init() {
+  loadState();
+
+  // Mobile banner
+  if (window.innerWidth < 768) {
+    document.getElementById('mobile-banner').classList.add('show');
+  }
+
+  bindSection1();
+  bindSection2();
+  renderWorkflows();
+  bindSection4();
+
+  // restore section
+  if (state.currentSection && state.currentSection >= 1 && state.currentSection <= 7) {
+    if (state.currentSection >= 5) {
+      renderReport();
+      if (state.currentSection === 6) {
+        const idx = state.currentWorkflowIndex || 0;
+        if (state.workflows[idx]) {
+          renderWorkflowDeepDive(idx);
+        } else {
+          // Fall back to sec-5 if no workflow at index
+          goToSection(5);
+          return;
+        }
+      }
+    }
+    goToSection(state.currentSection);
+  } else {
+    goToSection(1);
+  }
+}
+
+window.addEventListener('DOMContentLoaded', init);
+</script>
+
+</body>
+</html>
